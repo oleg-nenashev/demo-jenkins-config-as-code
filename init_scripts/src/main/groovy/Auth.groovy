@@ -39,7 +39,8 @@ public class OwnershipBasedSecurityHelper {
          //TODO: Jenkins.getACL() returns RootACL for node, hence we cannot use Node-specific security settings
          // We need it to Run Pipeline Jobs. Ideally a RoleStrategy macro should be created.
          // If "-Dio.jenkins.dev.security.allowRunsOnMaster" is "false", the Master node will be protected by
-         // Job Restrictions settings. Otherwise any user will be able to run whatever stuff on any node..
+         // Job Restrictions settings. Nodes have to be protected by Job Restrictions as well.
+         // Otherwise any user will be able to run whatever stuff on that nodes...
          Set<Permission> masterBuildPermission = new HashSet<Permission>();
          masterBuildPermission.add(Computer.BUILD);
          Role nodeBuildKillSwitch = createRole("BuildAnythingOnNode", ".*", masterBuildPermission);
