@@ -5,4 +5,8 @@ RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 COPY init_scripts/src/main/groovy/ /usr/share/jenkins/ref/init.groovy.d/
 
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=true -Dio.jenkins.dev.host=192.168.192.62"
+# TODO: It should be configurable in "docker run"
+ARG DEV_HOST=192.168.101.57
+ARG CREATE_ADMIN=true
+
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=${CREATE_ADMIN} -Dio.jenkins.dev.host=${DEV_HOST}"
