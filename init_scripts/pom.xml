@@ -25,6 +25,7 @@
   
   <properties>
     <jenkins.version>2.60.1</jenkins.version>
+    <java.level>8</java.level>
   </properties>
     
   
@@ -57,6 +58,24 @@
       <groupId>com.github.kostyasha.yet-another-docker</groupId>
       <artifactId>yet-another-docker-plugin</artifactId>
       <version>0.1.0-rc37</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.synopsys.jenkinsci</groupId>
+      <artifactId>ownership</artifactId>
+      <version>0.10.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.synopsys.arc.jenkinsci.plugins</groupId>
+      <artifactId>job-restrictions</artifactId>
+      <version>0.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>role-strategy</artifactId>
+      <version>2.5.1</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

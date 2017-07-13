@@ -4,3 +4,6 @@ workflow-aggregator:2.5
 git:3.3.2
 timestamper:1.8.8
 yet-another-docker-plugin:0.1.0-rc37
+ownership:0.10.0
+job-restrictions:0.6
+role-strategy:2.5.1
