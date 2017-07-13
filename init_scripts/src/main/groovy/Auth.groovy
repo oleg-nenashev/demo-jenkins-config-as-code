@@ -6,6 +6,8 @@ import hudson.security.HudsonPrivateSecurityRealm
 import hudson.security.Permission
 import jenkins.model.Jenkins;
 import hudson.model.*
+import org.jenkinsci.plugins.authorizeproject.GlobalQueueItemAuthenticator
+import org.jenkinsci.plugins.authorizeproject.strategy.TriggeringUsersAuthorizationStrategy
 
 boolean createAdmin = Boolean.getBoolean("io.jenkins.dev.security.createAdmin");
 
@@ -106,3 +108,9 @@ grantedRoles.put(RoleType.Global.getStringType(), OwnershipBasedSecurityHelper.g
 
 strategy.@grantedRoles.putAll(grantedRoles);
 Jenkins.instance.setAuthorizationStrategy(strategy);
+
+println("=== Configure Authorize Project")
+GlobalQueueItemAuthenticator auth = new GlobalQueueItemAuthenticator(
+        new TriggeringUsersAuthorizationStrategy()
+);
+jenkins.security.QueueItemAuthenticatorConfiguration.get().getAuthenticators().add(auth);
