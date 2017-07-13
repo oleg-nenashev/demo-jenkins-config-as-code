@@ -12,5 +12,10 @@ if (Jenkins.instance.getItem("Development") != null) {
     return;
 }
 
+// Admin owns the root Development folder
 def folder = Jenkins.instance.createProject(Folder.class, "Development");
-FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "user"));
+FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin"));
+
+// Users get their own sandboxes
+def folder2 = folder.createProject(Folder.class, "User");
+FolderOwnershipHelper.setOwnership(folder2, new OwnershipDescription(true, "user"));

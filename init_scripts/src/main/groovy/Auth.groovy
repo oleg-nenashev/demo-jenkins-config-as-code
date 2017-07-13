@@ -72,7 +72,8 @@ public class OwnershipBasedSecurityHelper {
 
      static RoleMap getComputerRoleMap() {
         Set<Permission> ownerPermissions = new HashSet<Permission>();
-        ownerPermissions.add(com.synopsys.arc.jenkins.plugins.ownership.OwnershipPlugin.MANAGE_SLAVES_OWNERSHIP);
+        // Disabled: Ownership settings come from the directory, and we do not want the user to work with them
+        // ownerPermissions.add(com.synopsys.arc.jenkins.plugins.ownership.OwnershipPlugin.MANAGE_SLAVES_OWNERSHIP);
         ownerPermissions.addAll(Computer.PERMISSIONS.getPermissions());
         Role ownerRole = createRole("@OwnerNoSid", ".*", ownerPermissions);
 
