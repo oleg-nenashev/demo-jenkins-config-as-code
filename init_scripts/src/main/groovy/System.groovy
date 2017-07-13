@@ -1,6 +1,7 @@
 import jenkins.model.Jenkins
 import jenkins.CLI
 import org.kohsuke.stapler.StaplerProxy
+import hudson.tasks.Mailer
 
 boolean allowRunsOnMaster = Boolean.getBoolean("io.jenkins.dev.security.allowRunsOnMaster");;
 
@@ -19,3 +20,8 @@ Jenkins.instance.setAgentProtocols(new HashSet<String>(Arrays.asList("JNLP4-conn
 Jenkins.instance.getExtensionList(StaplerProxy.class)
         .get(jenkins.security.s2m.AdminWhitelistRule.class)
         .setMasterKillSwitch(false)
+
+
+println("--- Configuring Email global settings")
+jenkins.model.JenkinsLocationConfiguration.get().setAdminAddress("admin@non.existent.email")
+Mailer.descriptor().setDefaultSuffix("@non.existent.email")

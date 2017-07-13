@@ -7,3 +7,4 @@ yet-another-docker-plugin:0.1.0-rc37
 ownership:0.10.0
 job-restrictions:0.6
 role-strategy:2.5.1
+mailer:1.20
