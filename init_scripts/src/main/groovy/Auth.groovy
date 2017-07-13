@@ -33,11 +33,21 @@ public class OwnershipBasedSecurityHelper {
         anonymousPermissions.add(Jenkins.READ);
         anonymousPermissions.add(Item.READ);
         anonymousPermissions.add(Item.DISCOVER);
-        Role anonymousRole = createRole("anonymous", ".*", anonymousPermissions);
+        Role anonymousRole = createRole("anonymous", ".*", anonymousPermissions)
+
+         //TODO: This is a weird hack, which allows running WorkflowRun instances any node
+         //TODO: Jenkins.getACL() returns RootACL for node, hence we cannot use Node-specific security settings
+         // We need it to Run Pipeline Jobs. Ideally a RoleStrategy macro should be created.
+         // If "-Dio.jenkins.dev.security.allowRunsOnMaster" is "false", the Master node will be protected by
+         // Job Restrictions settings. Otherwise any user will be able to run whatever stuff on any node..
+         Set<Permission> masterBuildPermission = new HashSet<Permission>();
+         masterBuildPermission.add(Computer.BUILD);
+         Role nodeBuildKillSwitch = createRole("BuildAnythingOnNode", ".*", masterBuildPermission);
 
         final SortedMap<Role,Set<String>> grantedRoles = new TreeMap<Role, Set<String>>();
         grantedRoles.put(adminRole, singleSid("admin"));
         grantedRoles.put(anonymousRole, singleSid("anonymous"));
+         grantedRoles.put(nodeBuildKillSwitch, singleSid("authenticated"));
 
         return new RoleMap(grantedRoles);
     }

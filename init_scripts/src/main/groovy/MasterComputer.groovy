@@ -19,9 +19,7 @@ NodeOwnerHelper.setOwnership(Jenkins.instance, new OwnershipDescription(true, "a
 // Job restrictions
 boolean allowRunsOnMaster = Boolean.getBoolean("io.jenkins.dev.security.allowRunsOnMaster")
 if (allowRunsOnMaster) {
-    // It is not that bad since we have Authorize Project enabled
-    // Only admin will be eligible to run anything on the Master
-    // TODO: test and confirm
+    // TODO: Due to the BuildAnythingOnNode hack, there is actually no protection
     println("Runs on Master are enabled. It is a bad idea from the security standpoint")
     return;
 }
