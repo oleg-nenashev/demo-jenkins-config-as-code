@@ -12,4 +12,6 @@ ARG CREATE_ADMIN=true
 # See JobRestrictions settings
 ARG ALLOW_RUNS_ON_MASTER=false
 
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=${CREATE_ADMIN} -Dio.jenkins.dev.security.allowRunsOnMaster=${ALLOW_RUNS_ON_MASTER} -Dio.jenkins.dev.host=${DEV_HOST}"
+
+EXPOSE 5005
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=${CREATE_ADMIN} -Dio.jenkins.dev.security.allowRunsOnMaster=${ALLOW_RUNS_ON_MASTER} -Dio.jenkins.dev.host=${DEV_HOST} -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=5005,suspend=n"

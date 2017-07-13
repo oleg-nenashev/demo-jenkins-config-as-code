@@ -21,7 +21,7 @@ docker build -t onenashev/ci-jenkins-io-dev .
 Run image:
 
 ```
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -p 8080:8080 -p 50000:50000 onenashev/ci-jenkins-io-dev 
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
 ```
 
 Jenkins will need to connect to the Docker host to run agents.
