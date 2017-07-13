@@ -17,3 +17,9 @@ Jenkins.instance.getExtensionList(StaplerProxy.class)
 println("--- Configuring Email global settings")
 jenkins.model.JenkinsLocationConfiguration.get().setAdminAddress("admin@non.existent.email")
 Mailer.descriptor().setDefaultSuffix("@non.existent.email")
+
+println("--- Configuring Locale")
+//TODO: Create ticket to get better API
+hudson.plugins.locale.PluginImpl localePlugin = Jenkins.instance.getPlugin("locale")
+localePlugin.setSystemLocale("en_US")
+localePlugin.@ignoreAcceptLanguage=true
