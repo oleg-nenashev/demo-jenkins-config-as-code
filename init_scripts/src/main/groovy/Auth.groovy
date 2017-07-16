@@ -13,9 +13,11 @@ boolean createAdmin = Boolean.getBoolean("io.jenkins.dev.security.createAdmin");
 
 println("=== Installing the Security Realm");
 def securityRealm = new HudsonPrivateSecurityRealm(false);
-securityRealm.createAccount("user", "user");
+User user = securityRealm.createAccount("user", "user");
+user.setFullName("User")
 if (createAdmin) {
-    securityRealm.createAccount("admin", "admin");
+    User admin = securityRealm.createAccount("admin", "admin");
+    admin.setFullName("Admin")
 }
 Jenkins.instance.setSecurityRealm(securityRealm);
 
