@@ -26,5 +26,5 @@ FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin
 
 // Add a sample project
 WorkflowJob project = folder.createProject(WorkflowJob.class, "Ownership_Plugin_System_Master")
-project.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['master'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')"));
+project.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['master'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')", true));
 JobOwnerHelper.setOwnership(project, new OwnershipDescription(true, "admin"));

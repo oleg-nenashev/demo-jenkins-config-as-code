@@ -31,11 +31,11 @@ FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin
 
 // Add a sample project
 WorkflowJob project1 = folder.createProject(WorkflowJob.class, "Ownership_Plugin_Agent")
-project1.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['linux'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')"));
+project1.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['linux'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')", true));
 JobOwnerHelper.setOwnership(project1, new OwnershipDescription(true, "admin", Arrays.asList("user")));
 
 WorkflowJob project2 = folder.createProject(WorkflowJob.class, "Ownership_Plugin_Master")
-project2.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['master'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')"));
+project2.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['master'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')", true));
 JobOwnerHelper.setOwnership(project2, new OwnershipDescription(true, "admin", Arrays.asList("user")));
 
 // TODO: Add Multi-Branch project, which does not build with Windows
