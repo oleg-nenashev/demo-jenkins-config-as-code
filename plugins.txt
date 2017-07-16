@@ -12,3 +12,4 @@ authorize-project:1.3.0
 security-inspector:0.4
 monitoring:1.68.1
 locale:1.2
+blueocean:1.1.4
