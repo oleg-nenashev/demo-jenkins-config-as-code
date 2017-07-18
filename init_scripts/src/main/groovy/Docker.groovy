@@ -25,12 +25,9 @@ println("=== Installing Docker Cloud for Linux nodes")
 //TODO: YAD Plugin does not work well with this image and Unix sockets. Would be useful to migrate
 
 final DockerConnector connector = new DockerConnector("tcp://${host}:2376");
-// TODO: Add credentials?
-// connector.setCredentialsId(dockerServerCredentials.getId());
 
 final DockerPullImage pullImage = new DockerPullImage();
-// pullImage.setCredentialsId("");
-pullImage.setPullStrategy(DockerImagePullStrategy.PULL_ALWAYS);
+pullImage.setPullStrategy(DockerImagePullStrategy.PULL_ONCE);
 
 final DockerComputerJNLPLauncher launcher = new DockerComputerJNLPLauncher();
 launcher.setLaunchTimeout(100);
@@ -64,7 +61,7 @@ dockerSlaveTemplate.setDockerContainerLifecycle(containerLifecycle);
 dockerSlaveTemplate.setLabelString("linux");
 dockerSlaveTemplate.setLauncher(launcher);
 dockerSlaveTemplate.setMaxCapacity(10);
-dockerSlaveTemplate.setMode(hudson.model.Node.Mode.EXCLUSIVE);
+dockerSlaveTemplate.setMode(hudson.model.Node.Mode.EXCLUSIVE)
 dockerSlaveTemplate.setNumExecutors(1);
 dockerSlaveTemplate.setRetentionStrategy(new DockerOnceRetentionStrategy(30));
 

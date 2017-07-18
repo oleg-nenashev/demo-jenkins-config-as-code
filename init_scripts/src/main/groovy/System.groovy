@@ -14,6 +14,10 @@ Jenkins.instance.getExtensionList(StaplerProxy.class)
         .setMasterKillSwitch(false)
 
 
+println("--- Configuring Quiet Period")
+// We do not wait for anything
+Jenkins.instance.setQuietPeriod(0)
+
 println("--- Configuring Email global settings")
 jenkins.model.JenkinsLocationConfiguration.get().setAdminAddress("admin@non.existent.email")
 Mailer.descriptor().setDefaultSuffix("@non.existent.email")

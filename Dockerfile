@@ -20,4 +20,4 @@ ENV LOCAL_PIPELINE_LIBRARY_PATH=${LOCAL_PIPELINE_LIBRARY_PATH}
 VOLUME /var/jenkins_home/pipeline-library
 
 EXPOSE 5005
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=${CREATE_ADMIN} -Dio.jenkins.dev.security.allowRunsOnMaster=${ALLOW_RUNS_ON_MASTER} -Dio.jenkins.dev.host=${DEV_HOST} -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=5005,suspend=n"
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=${CREATE_ADMIN} -Dio.jenkins.dev.security.allowRunsOnMaster=${ALLOW_RUNS_ON_MASTER} -Dio.jenkins.dev.host=${DEV_HOST} -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=5005,suspend=n -Dhudson.model.LoadStatistics.clock=1000"
