@@ -41,6 +41,18 @@ Extra UI Features:
 
 ### Usage
 
+#### Agents
+
+Having a local agent build is a prerequisite for using the master
+for high-speed builds with Maven repository caching.
+For this purpose there is an image in `Docker.agent`.
+
+```shell
+cd agent && docker build -t onenashev/jenkins-demo-maven-builder .
+```
+
+#### Master
+
 Currently the image is in the PoC mode. 
 You need build the image with c
 
