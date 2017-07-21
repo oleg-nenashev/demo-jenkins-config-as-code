@@ -45,7 +45,7 @@ Extra UI Features:
 
 Having a local agent build is a prerequisite for using the master
 for high-speed builds with Maven repository caching.
-For this purpose there is an image in `Docker.agent`.
+For this purpose there is a custom Dockerfile in the `/agent` folder.
 
 ```shell
 cd agent && docker build -t onenashev/jenkins-demo-maven-builder .
@@ -54,7 +54,7 @@ cd agent && docker build -t onenashev/jenkins-demo-maven-builder .
 #### Master
 
 Currently the image is in the PoC mode. 
-You need build the image with c
+You need to build the image manually from the repository.
 
 Build image:
 
