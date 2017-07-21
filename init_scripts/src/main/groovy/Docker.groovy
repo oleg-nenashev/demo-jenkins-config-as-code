@@ -34,7 +34,6 @@ static DockerSlaveTemplate fromTemplate(String image) {
             launchTimeout: 100,
             noCertificateCheck: true
         ),
-        //TODO: Make shared local Maven repo configurable
         dockerContainerLifecycle: new DockerContainerLifecycle(
             image: image,
             pullImage: new DockerPullImage(
