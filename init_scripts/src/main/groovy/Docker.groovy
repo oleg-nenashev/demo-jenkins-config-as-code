@@ -11,6 +11,7 @@ import com.github.kostyasha.yad.launcher.DockerComputerJNLPLauncher
 import com.github.kostyasha.yad.strategy.DockerOnceRetentionStrategy
 import jenkins.model.Jenkins
 import jenkins.model.JenkinsLocationConfiguration
+import hudson.model.Node.Mode;
 
 println("=== Setting Jenkins URL")
 String host = java.lang.System.getProperty("io.jenkins.dev.host")
@@ -22,6 +23,16 @@ if (host == null) {
 
 println("=== Installing Docker Cloud for Linux nodes")
 final DockerSlaveTemplate defaultJnlpAgentTemplate = new DockerSlaveTemplate(
+    labelString: "linux",
+    maxCapacity: 10,
+    mode: Mode.EXCLUSIVE,
+    numExecutors: 1,
+    launcher: new DockerComputerJNLPLauncher(
+        user: "jenkins",
+        jenkinsUrl: JenkinsLocationConfiguration.get().url,
+        launchTimeout: 100,
+        noCertificateCheck: true
+    ),
     dockerContainerLifecycle: new DockerContainerLifecycle(
         image: "jenkinsci/jnlp-slave",
         pullImage: new DockerPullImage(
@@ -43,16 +54,6 @@ final DockerSlaveTemplate defaultJnlpAgentTemplate = new DockerSlaveTemplate(
             removeVolumes: true
         )
     ),
-    labelString: "linux",
-    launcher: new DockerComputerJNLPLauncher(
-        launchTimeout: 100,
-        user: "jenkins",
-        jenkinsUrl: JenkinsLocationConfiguration.get().url,
-        noCertificateCheck: true
-    ),
-    maxCapacity: 10,
-    mode: hudson.model.Node.Mode.EXCLUSIVE,
-    numExecutors: 1,
     retentionStrategy: new DockerOnceRetentionStrategy(30)
 )
 
