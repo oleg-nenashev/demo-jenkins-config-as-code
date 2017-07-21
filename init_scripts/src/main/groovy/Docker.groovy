@@ -21,63 +21,46 @@ if (host == null) {
 }
 
 println("=== Installing Docker Cloud for Linux nodes")
+final DockerSlaveTemplate defaultJnlpAgentTemplate = new DockerSlaveTemplate(
+    dockerContainerLifecycle: new DockerContainerLifecycle(
+        image: "jenkinsci/jnlp-slave",
+        pullImage: new DockerPullImage(
+            pullStrategy: DockerImagePullStrategy.PULL_ONCE
+        ),
+        createContainer: new DockerCreateContainer(
+            privileged: false,
+            tty: false,
+            volumes: [ //TODO: Make shared local Maven repo configurable
+                "maven-repo:/root/.m2",
+                "jar-cache:/root/.jenkins"
+            ]
+        ),
+        stopContainer: new DockerStopContainer(
+            timeout: 100
+        ),
+        removeContainer: new DockerRemoveContainer(
+            force: true,
+            removeVolumes: true
+        )
+    ),
+    labelString: "linux",
+    launcher: new DockerComputerJNLPLauncher(
+        launchTimeout: 100,
+        user: "jenkins",
+        jenkinsUrl: JenkinsLocationConfiguration.get().url,
+        noCertificateCheck: true
+    ),
+    maxCapacity: 10,
+    mode: hudson.model.Node.Mode.EXCLUSIVE,
+    numExecutors: 1,
+    retentionStrategy: new DockerOnceRetentionStrategy(30)
+)
 
-//TODO: YAD Plugin does not work well with this image and Unix sockets. Would be useful to migrate
-
-final DockerConnector connector = new DockerConnector("tcp://${host}:2376")
-
-final DockerPullImage pullImageOpt = new DockerPullImage()
-pullImageOpt.pullStrategy = DockerImagePullStrategy.PULL_ONCE
-
-final DockerComputerJNLPLauncher jnlpLauncher = new DockerComputerJNLPLauncher()
-jnlpLauncher.with {
-    launchTimeout = 100
-    user = "jenkins"
-    jenkinsUrl = JenkinsLocationConfiguration.get().getUrl()
-    noCertificateCheck = true
-}
-
-final DockerCreateContainer createContainerOpt = new DockerCreateContainer()
-createContainerOpt.with {
-    privileged = false
-    tty = false
-    //TODO: Make shared local Maven repo configurable
-    volumes = Arrays.asList("maven-repo:/root/.m2", "jar-cache:/root/.jenkins")
-}
-
-final DockerStopContainer stopContainerOpt = new DockerStopContainer()
-stopContainerOpt.with {
-    timeout = 100
-}
-
-final DockerRemoveContainer removeContainerOpt = new DockerRemoveContainer()
-removeContainerOpt.with {
-    force = true
-    removeVolumes = true
-}
-
-final DockerContainerLifecycle containerLifecycle = new DockerContainerLifecycle()
-containerLifecycle.with {
-    image = "jenkinsci/jnlp-slave"
-    pullImage = pullImageOpt
-    createContainer = createContainerOpt
-    stopContainer = stopContainerOpt
-    removeContainer = removeContainerOpt
-}
-
-final DockerSlaveTemplate dockerSlaveTemplate = new DockerSlaveTemplate()
-dockerSlaveTemplate.with {
-    dockerContainerLifecycle = containerLifecycle
-    labelString = "linux"
-    launcher = jnlpLauncher
-    maxCapacity = 10
-    mode = hudson.model.Node.Mode.EXCLUSIVE
-    numExecutors = 1
-    retentionStrategy = new DockerOnceRetentionStrategy(30)
-}
-
-final ArrayList<DockerSlaveTemplate> dockerSlaveTemplates = new ArrayList<>()
-dockerSlaveTemplates.add(dockerSlaveTemplate)
-
-def yadCloud = new DockerCloud("docker-cloud", dockerSlaveTemplates, 10, connector)
-Jenkins.instance.clouds.add(yadCloud)
+Jenkins.instance.clouds.add(
+    new DockerCloud(
+        "docker-cloud",
+        [ defaultJnlpAgentTemplate ],
+        10,
+        //TODO: YAD Plugin does not work well with this image and Unix sockets. Would be useful to migrate
+        new DockerConnector("tcp://${host}:2376"))
+)
