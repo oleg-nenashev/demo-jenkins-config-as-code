@@ -34,7 +34,7 @@ final DockerSlaveTemplate defaultJnlpAgentTemplate = new DockerSlaveTemplate(
         noCertificateCheck: true
     ),
     dockerContainerLifecycle: new DockerContainerLifecycle(
-        image: "jenkinsci/jnlp-slave",
+        image: "jenkins/jnlp-slave",
         pullImage: new DockerPullImage(
             pullStrategy: DockerImagePullStrategy.PULL_ONCE
         ),
