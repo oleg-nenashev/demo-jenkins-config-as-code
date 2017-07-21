@@ -2,7 +2,7 @@
 
 
 import com.synopsys.arc.jenkins.plugins.ownership.OwnershipDescription
-import jenkins.model.Jenkins;
+import jenkins.model.Jenkins
 import com.cloudbees.hudson.plugins.folder.Folder
 import jenkins.plugins.git.GitSCMSource
 import org.jenkinsci.plugins.ownership.model.folders.FolderOwnershipHelper
@@ -14,17 +14,17 @@ import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever
 
 println("=== Initialize the Development folder")
 if (Jenkins.instance.getItem("Development") != null) {
-    println("Development folder has been already initialized, skipping the step");
-    return;
+    println("Development folder has been already initialized, skipping the step")
+    return
 }
 
 // Admin owns the root Development folder
-def folder = Jenkins.instance.createProject(Folder.class, "Development");
-FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin"));
+def folder = Jenkins.instance.createProject(Folder.class, "Development")
+FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin"))
 
 // Users get their own sandboxes
-def folder2 = folder.createProject(Folder.class, "User");
-FolderOwnershipHelper.setOwnership(folder2, new OwnershipDescription(true, "user"));
+def folder2 = folder.createProject(Folder.class, "User")
+FolderOwnershipHelper.setOwnership(folder2, new OwnershipDescription(true, "user"))
 
 // Create a library for local Jenkins Pipeline Library Development
 // if the Env Var is set and the directory is mapped
@@ -37,15 +37,19 @@ if (!file.exists()) {
     println("/var/jenkins_home/pipeline-library is mapped, initializing the directory")
 }
 
-def pipelineLib = folder.createProject(Folder.class, "PipelineLibrary");
-FolderOwnershipHelper.setOwnership(pipelineLib, new OwnershipDescription(true, "user"));
+def pipelineLib = folder.createProject(Folder.class, "PipelineLibrary")
+FolderOwnershipHelper.setOwnership(pipelineLib, new OwnershipDescription(true, "user"))
 def pipelineLibrarySource = new GitSCMSource("pipeline-library", "file:///var/jenkins_home/pipeline-library", null, null, null, false)
 LibraryConfiguration lc = new LibraryConfiguration("pipeline-library", new SCMSourceRetriever(pipelineLibrarySource))
-lc.setImplicit(true)
-lc.setDefaultVersion("master");
-pipelineLib.addProperty(new FolderLibraries(Arrays.asList(lc)));
+lc.with {
+    implicit = true
+    defaultVersion = "master"
+}
+pipelineLib.addProperty(new FolderLibraries([lc]))
 
 // Add sample projects
 WorkflowJob sshdModuleProject = pipelineLib.createProject(WorkflowJob.class, "sshd_module")
-sshdModuleProject.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['linux'], repo: 'https://github.com/jenkinsci/sshd-module.git')", true));
+sshdModuleProject.definition = new CpsFlowDefinition(
+    "buildPlugin(platforms: ['linux'], repo: 'https://github.com/jenkinsci/sshd-module.git')", true
+)
 

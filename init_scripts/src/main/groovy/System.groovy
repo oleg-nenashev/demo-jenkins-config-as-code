@@ -1,18 +1,21 @@
 import hudson.security.csrf.DefaultCrumbIssuer
 import jenkins.model.Jenkins
+import jenkins.model.JenkinsLocationConfiguration
 import jenkins.CLI
+import jenkins.security.s2m.AdminWhitelistRule
 import org.kohsuke.stapler.StaplerProxy
 import hudson.tasks.Mailer
+import hudson.plugins.locale.PluginImpl
 
 println("-- System configuration")
 
 // TODO: Configure Job Restrictions, Script Security, Authorize Project, etc., etc.
 println("--- Configuring Remoting (JNLP4 only, no Remoting CLI)")
-CLI.get().setEnabled(false);
-Jenkins.instance.setAgentProtocols(new HashSet<String>(Arrays.asList("JNLP4-connect")));
+CLI.get().enabled = false
+Jenkins.instance.agentProtocols = new HashSet<String>(["JNLP4-connect"])
 Jenkins.instance.getExtensionList(StaplerProxy.class)
-        .get(jenkins.security.s2m.AdminWhitelistRule.class)
-        .setMasterKillSwitch(false)
+    .get(AdminWhitelistRule.class)
+    .masterKillSwitch = false
 
 println("--- Checking the CSRF protection")
 if (Jenkins.instance.crumbIssuer == null) {
@@ -22,14 +25,14 @@ if (Jenkins.instance.crumbIssuer == null) {
 
 println("--- Configuring Quiet Period")
 // We do not wait for anything
-Jenkins.instance.setQuietPeriod(0)
+Jenkins.instance.quietPeriod = 0
 
 println("--- Configuring Email global settings")
-jenkins.model.JenkinsLocationConfiguration.get().setAdminAddress("admin@non.existent.email")
-Mailer.descriptor().setDefaultSuffix("@non.existent.email")
+JenkinsLocationConfiguration.get().adminAddress = "admin@non.existent.email"
+Mailer.descriptor().defaultSuffix = "@non.existent.email"
 
 println("--- Configuring Locale")
 //TODO: Create ticket to get better API
-hudson.plugins.locale.PluginImpl localePlugin = Jenkins.instance.getPlugin("locale")
-localePlugin.setSystemLocale("en_US")
+PluginImpl localePlugin = (PluginImpl)Jenkins.instance.getPlugin("locale")
+localePlugin.systemLocale = "en_US"
 localePlugin.@ignoreAcceptLanguage=true
