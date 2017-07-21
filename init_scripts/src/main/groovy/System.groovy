@@ -1,3 +1,4 @@
+import hudson.security.csrf.DefaultCrumbIssuer
 import jenkins.model.Jenkins
 import jenkins.CLI
 import org.kohsuke.stapler.StaplerProxy
@@ -6,13 +7,18 @@ import hudson.tasks.Mailer
 println("-- System configuration")
 
 // TODO: Configure Job Restrictions, Script Security, Authorize Project, etc., etc.
-println("--- Configuring Remoting (JNLP4, no Remoting CLI)")
+println("--- Configuring Remoting (JNLP4 only, no Remoting CLI)")
 CLI.get().setEnabled(false);
 Jenkins.instance.setAgentProtocols(new HashSet<String>(Arrays.asList("JNLP4-connect")));
 Jenkins.instance.getExtensionList(StaplerProxy.class)
         .get(jenkins.security.s2m.AdminWhitelistRule.class)
         .setMasterKillSwitch(false)
 
+println("--- Checking the CSRF protection")
+if (Jenkins.instance.crumbIssuer == null) {
+    println "CSRF protection is disabled, Enabling the default Crumb Issuer"
+    Jenkins.instance.crumbIssuer = new DefaultCrumbIssuer(true)
+}
 
 println("--- Configuring Quiet Period")
 // We do not wait for anything
