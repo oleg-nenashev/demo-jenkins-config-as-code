@@ -64,7 +64,7 @@ defaultJnlpAgentTemplate.with {
 
 // Custom image for Maven builds
 MavenInstallation.DescriptorImpl mavenDescriptor = Jenkins.instance.getDescriptorByType(MavenInstallation.DescriptorImpl.class);
-final DockerSlaveTemplate mavenBuilderTemplate = fromTemplate("onenashev/jenkins-demo-maven-builder")
+final DockerSlaveTemplate mavenBuilderTemplate = fromTemplate("onenashev/demo-jenkins-maven-builder")
 mavenBuilderTemplate.with {
     labelString = "docker linux mvnBuilder"
     remoteFs = "/root"

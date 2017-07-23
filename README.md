@@ -1,12 +1,13 @@
 Demo image for Jenkins Configuration-as-Code
 ===
 
-This demo image brings up environment which can be used for development of Jenkins Pipeline libraries for [ci.jenkins.io](https://ci.jenkins.io).
+This demo image brings up environment which can be used for development of Jenkins Pipeline libraries for [ci.jenkins.io](https://ci.jenkins.io) 
+and to evaluate various Jenkins features like [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md).
 
-Main purpose of this image is to show how to establish full configuration-as-code in Jenkins with Docker, Pipeline, and 
+Main objective of this image is to show how to establish full configuration-as-code in Jenkins with Docker, Pipeline, and 
 [Groovy Hook Scripts](https://wiki.jenkins.io/display/JENKINS/Groovy+Hook+Script).
 
-:exclamation: Warning! This image is not designed for any kinds of production use.
+:exclamation: Warning! This image is not designed for production use.
 Use it at your own risk.
 Prototyping is in progress.
 
@@ -17,7 +18,9 @@ Jenkins container starts with the following features:
 * Authentication: Internal database with two users: `admin` and `user`
   * Passwords are same as user names
 * Authorization: 
-  * [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md), powered by [Role Strategy Plugin](https://plugins.jenkins.io/role-strategy)
+  * [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md), 
+  powered by [Role Strategy](https://plugins.jenkins.io/role-strategy) 
+  and [Ownership](https://plugins.jenkins.io/ownership) plugins
   * [Authorize Project](https://plugins.jenkins.io/authorize-project) is enabled by default
     * Runs will authorize as users who triggered the build
 
@@ -48,7 +51,7 @@ for high-speed builds with Maven repository caching.
 For this purpose there is a custom Dockerfile in the `/agent` folder.
 
 ```shell
-cd agent && docker build -t onenashev/jenkins-demo-maven-builder .
+cd agent && docker build -t onenashev/demo-jenkins-maven-builder .
 ```
 
 #### Master
@@ -56,13 +59,13 @@ cd agent && docker build -t onenashev/jenkins-demo-maven-builder .
 Build image:
 
 ```shell
-docker build -t onenashev/ci-jenkins-io-dev .
+docker build -t onenashev/demo-jenkins-config-as-code .
 ```
 
 Run image:
 
 ```shell
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/demo-jenkins-config-as-code
 ```
 
 Jenkins will need to connect to the Docker host to run agents.
@@ -78,5 +81,8 @@ In the _Development_ folder there is a _PipelineLib_ folder, which allows local 
 This folder can be mapped to a local repository in order to develop the library without committing changes: 
 
 ```shell
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELINE_LIBRARY_DIR}:/var/jenkins_home/pipeline-library -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELINE_LIBRARY_DIR}:/var/jenkins_home/pipeline-library -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/demo-jenkins-config-as-code
 ```
+
+Once started, you can just start editing the Pipeline library locally.
+On every job start the changes will be reflected in the directory without committing anything.

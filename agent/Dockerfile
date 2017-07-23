@@ -1,6 +1,6 @@
 ###
 # Custom agent build:
-# Image name: onenashev/jenkins-demo-maven-builder
+# Image name: onenashev/demo-jenkins-maven-builder
 ###
 FROM maven:3.5.0-jdk-8
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
