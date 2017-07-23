@@ -53,19 +53,16 @@ cd agent && docker build -t onenashev/jenkins-demo-maven-builder .
 
 #### Master
 
-Currently the image is in the PoC mode. 
-You need to build the image manually from the repository.
-
 Build image:
 
 ```shell
-docker build -t onenashev/ci-jenkins-io-dev --build-arg DEV_HOST=${CURRENT_HOST} .
+docker build -t onenashev/ci-jenkins-io-dev .
 ```
 
 Run image:
 
 ```shell
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
 ```
 
 Jenkins will need to connect to the Docker host to run agents.
@@ -81,5 +78,5 @@ In the _Development_ folder there is a _PipelineLib_ folder, which allows local 
 This folder can be mapped to a local repository in order to develop the library without committing changes: 
 
 ```shell
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELINE_LIBRARY_DIR}:/var/jenkins_home/pipeline-library -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELINE_LIBRARY_DIR}:/var/jenkins_home/pipeline-library -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/ci-jenkins-io-dev 
 ```

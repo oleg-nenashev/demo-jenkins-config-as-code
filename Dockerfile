@@ -18,11 +18,15 @@ ARG CREATE_ADMIN=true
 ARG ALLOW_RUNS_ON_MASTER=false
 ARG LOCAL_PIPELINE_LIBRARY_PATH=/var/jenkins_home/pipeline-library
 
+ENV CONF_CREATE_ADMIN=$CREATE_ADMIN
+ENV CONF_ALLOW_RUNS_ON_MASTER=$ALLOW_RUNS_ON_MASTER
+
 # Directory for Pipeline Library development sample
-RUN mkdir -p ${LOCAL_PIPELINE_LIBRARY_PATH}
 ENV LOCAL_PIPELINE_LIBRARY_PATH=${LOCAL_PIPELINE_LIBRARY_PATH}
+RUN mkdir -p ${LOCAL_PIPELINE_LIBRARY_PATH}
 
 VOLUME /var/jenkins_home/pipeline-library
-
 EXPOSE 5005
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true  -Dio.jenkins.dev.security.createAdmin=${CREATE_ADMIN} -Dio.jenkins.dev.security.allowRunsOnMaster=${ALLOW_RUNS_ON_MASTER} -Dio.jenkins.dev.host=${DEV_HOST} -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=5005,suspend=n -Dhudson.model.LoadStatistics.clock=1000"
+
+COPY jenkins2.sh /usr/local/bin/jenkins2.sh
+ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins2.sh"]
