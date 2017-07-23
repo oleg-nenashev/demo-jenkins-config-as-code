@@ -2,15 +2,15 @@
 
 
 import com.synopsys.arc.jenkins.plugins.ownership.OwnershipDescription
+import hudson.plugins.filesystem_scm.FSSCM
 import jenkins.model.Jenkins
 import com.cloudbees.hudson.plugins.folder.Folder
-import jenkins.plugins.git.GitSCMSource
 import org.jenkinsci.plugins.ownership.model.folders.FolderOwnershipHelper
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 import org.jenkinsci.plugins.workflow.libs.FolderLibraries
 import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration
-import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever
+import org.jenkinsci.plugins.workflow.libs.SCMRetriever
 
 println("=== Initialize the Development folder")
 if (Jenkins.instance.getItem("Development") != null) {
@@ -39,8 +39,8 @@ if (!file.exists()) {
 
 def pipelineLib = folder.createProject(Folder.class, "PipelineLibrary")
 FolderOwnershipHelper.setOwnership(pipelineLib, new OwnershipDescription(true, "user"))
-def pipelineLibrarySource = new GitSCMSource("pipeline-library", "file:///var/jenkins_home/pipeline-library", null, null, null, false)
-LibraryConfiguration lc = new LibraryConfiguration("pipeline-library", new SCMSourceRetriever(pipelineLibrarySource))
+def scm = new FSSCM("/var/jenkins_home/pipeline-library", false, false, null)
+LibraryConfiguration lc = new LibraryConfiguration("pipeline-library", new SCMRetriever(scm))
 lc.with {
     implicit = true
     defaultVersion = "master"
