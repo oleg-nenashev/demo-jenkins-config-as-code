@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.60.1
+FROM jenkins/jenkins:2.60.2
 
 #TODO: Get rid of the experimental UC once the FileSystem SCm plugin is released
 # Use experimental UC for FileSystem SCM

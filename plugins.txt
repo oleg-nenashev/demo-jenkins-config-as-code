@@ -1,7 +1,7 @@
 matrix-auth:1.7
 cloudbees-folder:6.1.0
 workflow-aggregator:2.5
-git:3.4.0
+git:3.4.1
 timestamper:1.8.8
 yet-another-docker-plugin:0.1.0-rc37
 ownership:0.10.0
