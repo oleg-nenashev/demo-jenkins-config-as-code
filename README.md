@@ -65,7 +65,7 @@ docker build -t onenashev/demo-jenkins-config-as-code .
 Run image:
 
 ```shell
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/demo-jenkins-config-as-code
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 onenashev/demo-jenkins-config-as-code
 ```
 
 Jenkins will need to connect to the Docker host to run agents.
@@ -81,8 +81,13 @@ In the _Development_ folder there is a _PipelineLib_ folder, which allows local 
 This folder can be mapped to a local repository in order to develop the library without committing changes: 
 
 ```shell
-docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELINE_LIBRARY_DIR}:/var/jenkins_home/pipeline-library -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 -p 5005:5005 onenashev/demo-jenkins-config-as-code
+docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELINE_LIBRARY_DIR}:/var/jenkins_home/pipeline-library -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000  onenashev/demo-jenkins-config-as-code
 ```
 
 Once started, you can just start editing the Pipeline library locally.
 On every job start the changes will be reflected in the directory without committing anything.
+
+##### Debugging Master
+
+In order to debug the master, use the `-e DEBUG=true -p 5005:5005` when starting the container.
+Jenkins will be suspended on the startup in such case.
