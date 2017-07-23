@@ -1,11 +1,10 @@
 Demo image for Jenkins Configuration-as-Code
 ===
 
-This demo image brings up environment which can be used for development of Jenkins Pipeline libraries for [ci.jenkins.io](https://ci.jenkins.io) 
-and to evaluate various Jenkins features like [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md).
-
-Main objective of this image is to show how to establish full configuration-as-code in Jenkins with Docker, Pipeline, and 
+This demo image shows how to establish full configuration-as-code in Jenkins with Docker, Pipeline, and 
 [Groovy Hook Scripts](https://wiki.jenkins.io/display/JENKINS/Groovy+Hook+Script).
+It brings up environment which can be used to develop Jenkins Pipeline libraries locally
+and to evaluate Jenkins features like [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md).
 
 :exclamation: Warning! This image is not designed for production use.
 Use it at your own risk.
