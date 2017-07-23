@@ -1,4 +1,6 @@
 FROM jenkins/jenkins:2.60.2
+MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
+LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.1"
 
 #TODO: Get rid of the experimental UC once the FileSystem SCm plugin is released
 # Use experimental UC for FileSystem SCM
