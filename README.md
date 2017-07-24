@@ -45,24 +45,6 @@ Extra UI Features:
 
 ### Usage
 
-#### Agents
-
-Having a local agent build is a prerequisite for using the master
-for high-speed builds with Maven repository caching.
-For this purpose there is a custom Dockerfile in the `/agent` folder.
-
-```shell
-cd agent && docker build -t onenashev/demo-jenkins-maven-builder .
-```
-
-#### Master
-
-Build image:
-
-```shell
-docker build -t onenashev/demo-jenkins-config-as-code .
-```
-
 Run image:
 
 ```shell
@@ -92,3 +74,23 @@ On every job start the changes will be reflected in the directory without commit
 
 In order to debug the master, use the `-e DEBUG=true -p 5005:5005` when starting the container.
 Jenkins will be suspended on the startup in such case.
+
+### Building images
+
+#### Agents
+
+Having a local agent build is a prerequisite for using the master
+for high-speed builds with Maven repository caching.
+For this purpose there is a custom Dockerfile in the `/agent` folder.
+
+```shell
+cd agent && docker build -t onenashev/demo-jenkins-maven-builder .
+```
+
+#### Master
+
+Build image:
+
+```shell
+docker build -t onenashev/demo-jenkins-config-as-code .
+```
