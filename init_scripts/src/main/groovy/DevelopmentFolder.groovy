@@ -48,8 +48,17 @@ lc.with {
 pipelineLib.addProperty(new FolderLibraries([lc]))
 
 // Add sample projects
-WorkflowJob sshdModuleProject = pipelineLib.createProject(WorkflowJob.class, "sshd_module")
-sshdModuleProject.definition = new CpsFlowDefinition(
-    "buildPlugin(platforms: ['linux'], repo: 'https://github.com/jenkinsci/sshd-module.git')", true
-)
+static def createPipelineLibJob(Folder folder, String repo, String nameSuffix = "", String args = null) {
+    WorkflowJob sshdModuleProject = folder.createProject(WorkflowJob.class, "${repo}${nameSuffix}")
+    String extras = args == null ? "" : ", $args"
+    sshdModuleProject.definition = new CpsFlowDefinition(
+        "buildPlugin(platforms: ['linux'], repo: 'https://github.com/jenkinsci/${repo}.git' ${extras})", true
+    )
+}
 
+createPipelineLibJob(pipelineLib, "job-restrictions-plugin", "_findbugs", "findbugs: [archive: true, unstableTotalAll: '0']")
+createPipelineLibJob(pipelineLib, "sshd-module")
+createPipelineLibJob(pipelineLib, "sshd-module", "_findbugs", "findbugs: [archive: true, unstableTotalAll: '0']")
+createPipelineLibJob(pipelineLib, "sshd-module", "_findbugs_checkstyle", "findbugs: [archive: true, unstableTotalAll: '0'], checkstyle: [run: true, archive: true]")
+// Just a plugin, where FindBugs really fails
+createPipelineLibJob(pipelineLib, "last-changes-plugin", "_findbugs", "findbugs: [archive: true, unstableTotalAll: '0']")
