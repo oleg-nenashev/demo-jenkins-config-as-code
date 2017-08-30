@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:2.60.3
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
-LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.1"
+LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
 
 #TODO: Get rid of the experimental UC once the FileSystem SCm plugin is released
 # Use experimental UC for FileSystem SCM
@@ -28,6 +28,7 @@ ENV LOCAL_PIPELINE_LIBRARY_PATH=${LOCAL_PIPELINE_LIBRARY_PATH}
 RUN mkdir -p ${LOCAL_PIPELINE_LIBRARY_PATH}
 
 VOLUME /var/jenkins_home/pipeline-library
+VOLUME /var/jenkins_home/pipeline-libs
 EXPOSE 5005
 
 COPY jenkins2.sh /usr/local/bin/jenkins2.sh

@@ -1,12 +1,13 @@
 // Initializes the Development folder, which is fully configurable by the user
 
-
+import groovy.io.FileType
 import com.synopsys.arc.jenkins.plugins.ownership.OwnershipDescription
 import hudson.plugins.filesystem_scm.FSSCM
 import jenkins.model.Jenkins
 import com.cloudbees.hudson.plugins.folder.Folder
 import org.jenkinsci.plugins.ownership.model.folders.FolderOwnershipHelper
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
+import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 import org.jenkinsci.plugins.workflow.libs.FolderLibraries
 import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration
@@ -46,6 +47,27 @@ lc.with {
     defaultVersion = "master"
 }
 pipelineLib.addProperty(new FolderLibraries([lc]))
+
+// Add extra Pipeline libs
+def customLib = folder.createProject(Folder.class, "CustomLibraries")
+def customPipelineLibs = [lc]
+def pipelineLibsDir = new File("/var/jenkins_home/pipeline-libs")
+if (pipelineLibsDir.exists()) {
+    println("===== Adding local Pipeline libs")
+    pipelineLibsDir.eachFile (FileType.DIRECTORIES) { customLibPath ->
+        if (new File(customLibPath, ".Jenkinslib").exists()) {
+            println("===== Adding ${customLibPath}")
+            def customLibScm = new FSSCM("${customLibPath}", false, false, null)
+            LibraryConfiguration customLibConfig = new LibraryConfiguration("${customLibPath.name}", new SCMRetriever(customLibScm))
+            customLibConfig.with {
+                implicit = true
+                defaultVersion = "master"
+            }
+            customPipelineLibs.add(customLibConfig)
+        }
+    }
+}
+customLib.addProperty(new FolderLibraries(customPipelineLibs))
 
 // Add sample projects
 static def createPipelineLibJob(Folder folder, String repo, String nameSuffix = "", String args = null) {
