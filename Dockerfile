@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.73.2
+FROM jenkins/jenkins:2.73.3
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
 
