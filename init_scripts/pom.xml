@@ -9,12 +9,20 @@
     <version>2.28</version>
   </parent>
   
-  <groupId>io.jenkins.ci.dev</groupId>
+  <groupId>io.jenkins.systemgroovy.demo</groupId>
   <artifactId>initscripts</artifactId>
-  <name>Jenkins.IO Dev Init scripts</name>
-  <description>Initialization scripts for jenkins.io dev instance</description>
+  <name>Jenkins Config-as-Code Demo Scripts</name>
+  <description>Initialization scripts for Jenkins Config-as-Code demo</description>
   <version>1.0-SNAPSHOT</version>
-  
+
+  <developers>
+    <developer>
+      <name>Oleg Nenashev</name>
+      <organization>Jenkins project</organization>
+      <organizationUrl>https://jenkins.io</organizationUrl>
+    </developer>
+  </developers>
+
   <licenses>
     <license>
       <name>The MIT License (MIT)</name>
@@ -24,7 +32,7 @@
   </licenses>
   
   <properties>
-    <jenkins.version>2.60.1</jenkins.version>
+    <jenkins.version>2.73.3</jenkins.version>
     <java.level>8</java.level>
   </properties>
     
@@ -34,7 +42,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>matrix-auth</artifactId>
-      <version>1.7</version>
+      <version>2.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
