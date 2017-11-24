@@ -17,3 +17,7 @@ filesystem_scm:experimental
 junit:1.21
 checkstyle:3.49
 findbugs:4.71
+parallel-test-executor:1.9
+email-ext:2.60
+jacoco:2.2.1
+cobertura:1.11
