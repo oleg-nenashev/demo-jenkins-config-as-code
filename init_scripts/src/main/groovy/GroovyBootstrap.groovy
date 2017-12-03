@@ -1,5 +1,29 @@
-import org.codehaus.groovy.control.CompilerConfiguration
+/*
+ * The MIT License
+ *
+ * Copyright (c) 2017 Oleg Nenashev
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
+import org.codehaus.groovy.control.CompilerConfiguration
+import static java.util.logging.Level.INFO
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
@@ -7,88 +31,72 @@ import javax.servlet.ServletContext;
 import jenkins.model.Jenkins;
 
 /**
- * Bootstraps standard Jenkins initialization logic.
+ * Bootstraps the standard Jenkins initialization logic.
+ * The bootstrap adds support of Groovy classes and propagates execution failures.
+ * The started scripts will be debuggable in IDE via Remote Debugger inside a running instance.
+ *
  * @author Oleg Nenashev
  */
 class GroovyInitBootstrap {
-    private final Binding bindings = new Binding();
-    private final ServletContext servletContext;
-    private final File home;
-    private final GroovyClassLoader loader;
+    private final Binding bindings = new Binding()
+    private final ServletContext servletContext
+    private final File home
+    private final GroovyClassLoader groovyClassloader
     private final CompilerConfiguration compilerConfiguration = CompilerConfiguration.DEFAULT
 
     private GroovyInitBootstrap(Jenkins j) {
-        this(j.servletContext, j.getRootDir(), j.getPluginManager().uberClassLoader);
+        this(j.servletContext, j.rootDir, j.pluginManager.uberClassLoader)
     }
 
-    public GroovyInitBootstrap(@Nonnull ServletContext servletContext, @Nonnull File home, @Nonnull ClassLoader loader) {
-        this.servletContext = servletContext;
-        this.home = home;
+    GroovyInitBootstrap(@Nonnull ServletContext servletContext, @Nonnull File home, @Nonnull ClassLoader groovyClassloader) {
+        this.servletContext = servletContext
+        this.home = home
         compilerConfiguration.classpath = new File(home, "init.groovy.d/").absolutePath
-        this.loader = new GroovyClassLoader(loader, compilerConfiguration, true);
+        this.groovyClassloader = new GroovyClassLoader(groovyClassloader, compilerConfiguration, true)
     }
 
-    public GroovyBootstrap bind(String name, Object o) {
-        bindings.setProperty(name,o);
-        return this;
+    GroovyBootstrap bind(String name, Object o) {
+        bindings.setProperty(name,o)
+        return this
     }
 
-    public Binding getBindings() {
-        return bindings;
-    }
-
-    public void run() {
-
-        File scriptD = new File(home, "init.groovy.d/scripts");
-        if (scriptD.isDirectory()) {
-            File[] scripts = scriptD.listFiles(new FileFilter() {
-                public boolean accept(File f) {
-                    return f.getName().endsWith(".groovy");
+    /**
+     * Runs the bootstrap and executes all scripts in {@code init.groovy.d/scripts}.
+     * @throws Error Execution failed, should be considered as fatal.
+     */
+    void run() {
+        File scriptsDir = new File(home, "init.groovy.d/scripts")
+        if (scriptsDir.isDirectory()) {
+            File[] scripts = scriptsDir.listFiles(new FileFilter() {
+                boolean accept(File f) {
+                    return f.name.endsWith(".groovy")
                 }
-            });
+            })
             if (scripts!=null) {
-                // sort to run them in a deterministic order
-                Arrays.sort(scripts);
-                for (File f : scripts) {
-                    execute(f);
+                // sort to run them in an alphabetic order
+                scripts.sort().each {
+                    execute(it)
                 }
             }
         }
     }
 
-    protected void execute(URL bundled) throws IOException {
-        if (bundled!=null) {
-            LOGGER.info("Executing bundled script: "+bundled);
-            execute(new GroovyCodeSource(bundled));
-        }
-    }
-
-    protected void execute(File f) {
+    /**
+     * Executes the specified Groovy file.
+     * @param f Groovy file
+     * @throws Error Execution failed, should be considered as fatal.
+     */
+    protected void execute(@Nonnull File f) {
         if (f.exists()) {
-            LOGGER.info("Executing "+f);
+            LOGGER.log(INFO, "Executing {0}", f)
             try {
-                execute(new GroovyCodeSource(f));
+                GroovyCodeSource codeSource = new GroovyCodeSource(f)
+                new GroovyShell(groovyClassloader, bindings).evaluate(codeSource)
             } catch (IOException e) {
                 LOGGER.log(WARNING, "Failed to execute " + f, e);
                 throw new Error("Failed to execute " + f, e)
             }
         }
-    }
-
-    protected void execute(GroovyCodeSource s) {
-        try {
-            createShell().evaluate(s);
-        } catch (RuntimeException x) {
-            LOGGER.log(WARNING, "Failed to run script " + s.getName(), x);
-            throw new Error("Failed to execute " + s.getName(), x)
-        }
-    }
-
-    /**
-     * Can be used to customize the environment in which the script runs.
-     */
-    protected GroovyShell createShell() {
-        return new GroovyShell(loader, bindings);
     }
 
     private static final Logger LOGGER = Logger.getLogger(GroovyBootstrap.class.getName());
