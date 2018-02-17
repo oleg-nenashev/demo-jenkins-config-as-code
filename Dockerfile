@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.73.3
+FROM jenkins/jenkins:2.89.4
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
 
@@ -28,4 +28,4 @@ VOLUME /var/jenkins_home/pipeline-libs
 EXPOSE 5005
 
 COPY jenkins2.sh /usr/local/bin/jenkins2.sh
-ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins2.sh"]
+ENTRYPOINT ["tini", "--", "/usr/local/bin/jenkins2.sh"]
