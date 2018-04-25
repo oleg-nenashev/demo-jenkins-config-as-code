@@ -1,7 +1,7 @@
 matrix-auth:2.2
 cloudbees-folder:6.4
 workflow-aggregator:2.5
-workflow-cps:2.48
+workflow-cps:2.49
 git:3.8.0
 timestamper:1.8.9
 yet-another-docker-plugin:0.1.0-rc47
@@ -14,7 +14,11 @@ security-inspector:0.4
 monitoring:1.72.0
 locale:1.2
 blueocean:1.5.0
-filesystem_scm:experimental
+filesystem_scm:2.1
 junit:1.24
 checkstyle:3.50
 findbugs:4.72
+parallel-test-executor:1.10
+email-ext:2.62
+jacoco:2.2.1
+cobertura:1.12
