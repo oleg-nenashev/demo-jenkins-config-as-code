@@ -22,3 +22,4 @@ parallel-test-executor:1.10
 email-ext:2.62
 jacoco:2.2.1
 cobertura:1.12.1
+configuration-as-code:experimental

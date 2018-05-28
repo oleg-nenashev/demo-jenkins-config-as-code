@@ -29,4 +29,6 @@ VOLUME /var/jenkins_home/pipeline-libs
 EXPOSE 5005
 
 COPY jenkins2.sh /usr/local/bin/jenkins2.sh
+ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
+COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
 ENTRYPOINT ["tini", "--", "/usr/local/bin/jenkins2.sh"]
