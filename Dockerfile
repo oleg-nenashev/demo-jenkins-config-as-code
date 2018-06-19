@@ -1,6 +1,8 @@
-FROM jenkins/jenkins-experimental:latest-jdk10-incrementals
+FROM jenkins/jenkins-experimental:blueocean-jdk10
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
+
+USER root
 
 ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt

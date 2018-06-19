@@ -14,7 +14,6 @@ authorize-project:1.3.0
 security-inspector:0.4
 monitoring:1.72.0
 locale:1.2
-blueocean:1.5.0
 filesystem_scm:2.1
 junit:1.24
 checkstyle:3.50
