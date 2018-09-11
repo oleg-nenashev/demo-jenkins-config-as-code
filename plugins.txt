@@ -1,7 +1,7 @@
-matrix-auth:2.2
+matrix-auth:2.3
 cloudbees-folder:6.4
 workflow-aggregator:2.5
-workflow-cps:2.53
+workflow-cps:2.54
 git:3.9.0
 timestamper:1.8.10
 yet-another-docker-plugin:0.1.0-rc47
@@ -22,4 +22,6 @@ parallel-test-executor:1.10
 email-ext:2.62
 jacoco:2.2.1
 cobertura:1.12.1
-configuration-as-code:experimental
+configuration-as-code:1.0-rc3
+configuration-as-code-support:1.0-rc3
+jdk-tool:1.1

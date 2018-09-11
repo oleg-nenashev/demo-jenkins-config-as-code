@@ -29,7 +29,7 @@ jenkins:
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
-      disableRememberMe: false
+  disableRememberMe: false
   scmCheckoutRetryCount: 0
   projectNamingStrategy: "standard"
   markupFormatter: "plainText"
@@ -38,7 +38,7 @@ jenkins:
   viewsTabBar: "standard"
 
   authorizationStrategy:
-    roleStrategy:
+    roleBased:
       roles:
         global:
           - name: "admin"
@@ -93,3 +93,9 @@ jenkins:
               - "Agent/Build"
             assignments:
               - "authenticated"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+
