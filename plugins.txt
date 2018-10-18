@@ -22,6 +22,6 @@ parallel-test-executor:1.10
 email-ext:2.62
 jacoco:2.2.1
 cobertura:1.12.1
-configuration-as-code:1.0-rc3
-configuration-as-code-support:1.0-rc3
+configuration-as-code:1.0
+configuration-as-code-support:1.0
 jdk-tool:1.1

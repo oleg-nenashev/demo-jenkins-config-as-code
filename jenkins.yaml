@@ -4,10 +4,6 @@ jenkins:
   agentProtocols:
   - "JNLP4-connect"
   - "Ping"
-  securityRealm:
-    local:
-      allowsSignup: false
-      enableCaptcha: false
   nodeProperties:
   - jobRestrictionProperty:
       jobRestriction:
@@ -37,6 +33,11 @@ jenkins:
   myViewsTabBar: "standard"
   viewsTabBar: "standard"
 
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
   authorizationStrategy:
     roleBased:
       roles:
@@ -63,7 +64,7 @@ jenkins:
               - "Job/Configure"
               - "Job/Build"
               - "Job/Delete"
-              - "Run/Delete"
+              - "Build/Delete"
             assignments:
               - "authenticated"
           - name: "@CoOwnerNoSid"
