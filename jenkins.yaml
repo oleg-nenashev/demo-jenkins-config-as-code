@@ -64,7 +64,7 @@ jenkins:
               - "Job/Configure"
               - "Job/Build"
               - "Job/Delete"
-              - "Build/Delete"
+              - "Run/Delete"
             assignments:
               - "authenticated"
           - name: "@CoOwnerNoSid"
