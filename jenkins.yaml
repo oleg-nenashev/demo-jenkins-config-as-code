@@ -33,7 +33,6 @@ jenkins:
   myViewsTabBar: "standard"
   viewsTabBar: "standard"
 
-jenkins:
   securityRealm:
     local:
       allowsSignup: false
