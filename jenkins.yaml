@@ -4,10 +4,6 @@ jenkins:
   agentProtocols:
   - "JNLP4-connect"
   - "Ping"
-  securityRealm:
-    local:
-      allowsSignup: false
-      enableCaptcha: false
   nodeProperties:
   - jobRestrictionProperty:
       jobRestriction:
@@ -29,7 +25,7 @@ jenkins:
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
-      disableRememberMe: false
+  disableRememberMe: false
   scmCheckoutRetryCount: 0
   projectNamingStrategy: "standard"
   markupFormatter: "plainText"
@@ -37,8 +33,12 @@ jenkins:
   myViewsTabBar: "standard"
   viewsTabBar: "standard"
 
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
   authorizationStrategy:
-    roleStrategy:
+    roleBased:
       roles:
         global:
           - name: "admin"
@@ -93,3 +93,9 @@ jenkins:
               - "Agent/Build"
             assignments:
               - "authenticated"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+
