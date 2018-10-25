@@ -1,0 +1,101 @@
+jenkins:
+  mode: NORMAL
+  numExecutors: 2
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  nodeProperties:
+  - jobRestrictionProperty:
+      jobRestriction:
+        or:
+          first:
+            multipleAnd:
+              restrictions:
+              - ownersList:
+                  usersList:
+                  - selectedUserId: "admin"
+                  acceptsCoOwners: false
+              - regexNameRestriction:
+                  checkShortName: false
+                  regexExpression: "^System/.+"
+          second:
+            jobClassNameRestriction:
+              jobClasses:
+              - selectedClass: "org.jenkinsci.plugins.workflow.job.WorkflowJob"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: true
+  disableRememberMe: false
+  scmCheckoutRetryCount: 0
+  projectNamingStrategy: "standard"
+  markupFormatter: "plainText"
+  slaveAgentPort: 50000
+  myViewsTabBar: "standard"
+  viewsTabBar: "standard"
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+          - name: "admin"
+            description: "Jenkins administrators"
+            permissions:
+              - "Overall/Administer"
+            assignments:
+              - "admin"
+          - name: "readonly"
+            description: "Read-only users"
+            permissions:
+              - "Overall/Read"
+              - "Job/Read"
+              - "Agent/Build"
+            assignments:
+              - "authenticated"
+        items:
+          - name: "@OwnerNoSid"
+            description: "Primary Owners"
+            pattern: ".*"
+            permissions:
+              - "Job/Configure"
+              - "Job/Build"
+              - "Job/Delete"
+              - "Run/Delete"
+            assignments:
+              - "authenticated"
+          - name: "@CoOwnerNoSid"
+            description: "Secondary Owners"
+            pattern: ".*"
+            permissions:
+              - "Job/Configure"
+              - "Job/Build"
+            assignments:
+              - "authenticated"
+        agents:
+          - name: "@OwnerNoSid"
+            description: "Primary Owners"
+            pattern: ".*"
+            permissions:
+              - "Agent/Configure"
+              - "Agent/Build"
+              - "Agent/Delete"
+              - "Agent/Build"
+            assignments:
+              - "authenticated"
+          - name: "@CoOwnerNoSid"
+            description: "Secondary Owners"
+            pattern: ".*"
+            permissions:
+              - "Agent/Connect"
+              - "Agent/Build"
+            assignments:
+              - "authenticated"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+
