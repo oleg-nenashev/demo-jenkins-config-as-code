@@ -62,29 +62,33 @@ defaultJnlpAgentTemplate.with {
     // User - jenkins (default)
 }
 
+List<DockerSlaveTemplate> imageTemplates = [ defaultJnlpAgentTemplate ]
+
 // Custom image for Maven builds
-MavenInstallation.DescriptorImpl mavenDescriptor = Jenkins.instance.getDescriptorByType(MavenInstallation.DescriptorImpl.class);
-final DockerSlaveTemplate mavenBuilderTemplate = fromTemplate("onenashev/demo-jenkins-maven-builder")
-mavenBuilderTemplate.with {
-    labelString = "docker linux mvnBuilder"
-    remoteFs = "/root"
-    ((DockerComputerJNLPLauncher)launcher).user = "root"
-    //TODO: Make volume names configurable
-    dockerContainerLifecycle.createContainer.volumes = ["maven-repo:/root/.m2", "jar-cache:/root/.jenkins"]
-    nodeProperties = [
-        new ToolLocationNodeProperty(
-            // Maven from the parent Maven image, we do not want to run the installer each time
-            new ToolLocationNodeProperty.ToolLocation(mavenDescriptor,"mvn", "/usr/share/maven")
-        )
-    ]
+for (def jdk : [8, 10, 11]) {
+    MavenInstallation.DescriptorImpl mavenDescriptor = Jenkins.instance.getDescriptorByType(MavenInstallation.DescriptorImpl.class);
+    final DockerSlaveTemplate mavenBuilderTemplate = fromTemplate("onenashev/demo-jenkins-maven-builder:jdk${jdk}")
+    mavenBuilderTemplate.with {
+        labelString = "docker mvnBuilder " + (jdk == 8 ? "linux" : "linux-jdk${jdk}")
+        remoteFs = "/root"
+        ((DockerComputerJNLPLauncher) launcher).user = "root"
+        //TODO: Make volume names configurable
+        dockerContainerLifecycle.createContainer.volumes = ["maven-repo:/root/.m2", "jar-cache:/root/.jenkins"]
+        nodeProperties = [
+            new ToolLocationNodeProperty(
+                // Maven from the parent Maven image, we do not want to run the installer each time
+                new ToolLocationNodeProperty.ToolLocation(mavenDescriptor, "mvn", "/usr/share/maven")
+            )
+        ]
 
+    }
+    imageTemplates.add(mavenBuilderTemplate);
 }
-
 
 Jenkins.instance.clouds.add(
     new DockerCloud(
         "docker-cloud",
-        [ defaultJnlpAgentTemplate, mavenBuilderTemplate ],
+        imageTemplates,
         10,
         //TODO: YAD Plugin does not work well with this image and Unix sockets. Would be useful to migrate
         new DockerConnector("tcp://${host}:2376"))

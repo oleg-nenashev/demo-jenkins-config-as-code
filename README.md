@@ -93,7 +93,9 @@ for high-speed builds with Maven repository caching.
 For this purpose there is a custom Dockerfile in the `/agent` folder.
 
 ```shell
-cd agent && docker build -t onenashev/demo-jenkins-maven-builder .
+cd agent-jdk8 && docker build -t onenashev/demo-jenkins-maven-builder:jdk8 .
+cd agent-jdk10 && docker build -t onenashev/demo-jenkins-maven-builder:jdk10 .
+cd agent-jdk11 && docker build -t onenashev/demo-jenkins-maven-builder:jdk11 .
 ```
 
 #### Master
