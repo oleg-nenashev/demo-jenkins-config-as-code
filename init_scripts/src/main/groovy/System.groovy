@@ -1,11 +1,9 @@
-import hudson.security.csrf.DefaultCrumbIssuer
 import jenkins.model.Jenkins
 import jenkins.model.JenkinsLocationConfiguration
 import jenkins.CLI
 import jenkins.security.s2m.AdminWhitelistRule
 import org.kohsuke.stapler.StaplerProxy
 import hudson.tasks.Mailer
-import hudson.plugins.locale.PluginImpl
 
 println("-- System configuration")
 
