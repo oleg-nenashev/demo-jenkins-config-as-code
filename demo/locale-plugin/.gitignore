@@ -1,0 +1,12 @@
+# mvn
+/target/
+
+# jenkins
+work
+
+# idea
+.idea
+*.iml
+
+# vim
+.swp

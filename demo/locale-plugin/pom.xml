@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+  
+    <name>Locale plugin</name>
+    <url>https://wiki.jenkins.io/display/JENKINS/Locale+Plugin</url>
+    
+    <parent>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>3.15</version>
+    </parent>
+
+    <properties>
+        <jenkins.version>1.625.3</jenkins.version>
+        <java.level>7</java.level>
+    </properties>
+
+    <groupId>io.jenkins.plugins</groupId>
+    <artifactId>locale</artifactId>
+    <version>1.5-SNAPSHOT</version>
+    <packaging>hpi</packaging>
+    
+    <developers>
+        <developer>
+            <id>kohsuke</id>
+            <name>Kohsuke Kawaguchi</name>
+        </developer>
+        <developer>
+            <id>oleg_nenashev</id>
+            <name>Oleg Nenashev</name>
+        </developer>
+    </developers>
+
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+    
+    <scm>
+        <connection>scm:git:ssh://github.com/jenkinsci/locale-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/locale-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/locale-plugin</url>
+      <tag>HEAD</tag>
+  </scm>
+                
+</project>  
+  
+

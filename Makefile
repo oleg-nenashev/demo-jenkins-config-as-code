@@ -31,6 +31,13 @@ build: .build/cwp-cli-${CWP_VERSION}.jar
 	java -jar .build/cwp-cli-${CWP_VERSION}.jar \
 	     -configPath packager-config.yml -version ${VERSION}
 
+.PHONY: run
 run:
 	docker run --rm -v $(shell pwd)/demo/simple/:/workspace/ \
 	    $(DOCKER_TAG)
+
+.PHONY: demo-plugin
+demo-plugin:
+	docker run --rm -v $(shell pwd)/demo/locale-plugin/:/workspace/ \
+	    $(DOCKER_TAG)
+
