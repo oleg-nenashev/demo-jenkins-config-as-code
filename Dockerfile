@@ -1,34 +1,22 @@
-FROM jenkins/jenkins:2.138.2
+FROM jenkins/jenkins:2.138.3
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
 
-ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-COPY download-and-check-updates.sh /usr/local/bin/download-and-check-updates.sh
-RUN /usr/local/bin/download-and-check-updates.sh < /usr/share/jenkins/ref/plugins.txt
+USER root
 
-COPY init_scripts/src/main/groovy/ /usr/share/jenkins/ref/init.groovy.d/
+# Maven
+ENV MAVEN_VERSION 3.5.3
+RUN curl -Lf http://central.maven.org/maven2/org/apache/maven/apache-maven/$MAVEN_VERSION/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar -C /opt -xzv
+ENV M2_HOME /opt/apache-maven-$MAVEN_VERSION
+ENV maven.home $M2_HOME
+ENV M2 $M2_HOME/bin
+ENV PATH $M2:$PATH
 
-# TODO: It should be configurable in "docker run"
-ARG DEV_HOST=192.168.101.57
-ARG CREATE_ADMIN=true
-# If false, only few runs can be actually executed on the master
-# See JobRestrictions settings
-ARG ALLOW_RUNS_ON_MASTER=false
-ARG LOCAL_PIPELINE_LIBRARY_PATH=/var/jenkins_home/pipeline-library
+# JDK11
+RUN curl -L --show-error https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz --output openjdk.tar.gz && \
+    echo "7a6bb980b9c91c478421f865087ad2d69086a0583aeeb9e69204785e8e97dcfd  openjdk.tar.gz" | sha256sum -c && \
+    tar xvzf openjdk.tar.gz && \
+    mv jdk-11.0.1/ /usr/lib/jvm/java-11-opendjdk-amd64 && \
+    rm openjdk.tar.gz
 
-ENV CONF_CREATE_ADMIN=$CREATE_ADMIN
-ENV CONF_ALLOW_RUNS_ON_MASTER=$ALLOW_RUNS_ON_MASTER
-
-# Directory for Pipeline Library development sample
-ENV LOCAL_PIPELINE_LIBRARY_PATH=${LOCAL_PIPELINE_LIBRARY_PATH}
-RUN mkdir -p ${LOCAL_PIPELINE_LIBRARY_PATH}
-
-VOLUME /var/jenkins_home/pipeline-library
-VOLUME /var/jenkins_home/pipeline-libs
-EXPOSE 5005
-
-COPY jenkins2.sh /usr/local/bin/jenkins2.sh
-ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
-COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
-ENTRYPOINT ["tini", "--", "/usr/local/bin/jenkins2.sh"]
+USER jenkins

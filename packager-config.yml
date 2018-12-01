@@ -17,7 +17,7 @@ buildSettings:
         git: https://github.com/jenkinsci/jenkinsfile-runner.git
         commit: 66626ef7c95c281d5b3ef9da9f5fdc36b4b42bf0
     docker:
-      base: "jenkins/jenkins:2.138.3"
+      base: "jenkins/ci.jenkins.io-runner.base"
       tag: "onenashev/ci.jenkins.io-runner"
       build: true
 war:

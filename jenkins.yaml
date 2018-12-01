@@ -1,12 +1,8 @@
 jenkins:
   mode: NORMAL
-  numExecutors: 2
-  agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
+  numExecutors: 1
+  labelString: "linux"
   scmCheckoutRetryCount: 0
-  projectNamingStrategy: "standard"
-  markupFormatter: "plainText"
   myViewsTabBar: "standard"
   viewsTabBar: "standard"
 
