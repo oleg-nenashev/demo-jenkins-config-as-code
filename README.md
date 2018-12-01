@@ -1,53 +1,8 @@
-Demo image for Jenkins Configuration-as-Code
+ci.jenkins.io-runner
 ===
 
-[![Docker Build Status](https://img.shields.io/docker/build/onenashev/demo-jenkins-config-as-code.svg)](https://hub.docker.com/r/onenashev/demo-jenkins-config-as-code/)
-
-This demo image shows how to establish full configuration-as-code in Jenkins with Docker, Pipeline, and 
-[Groovy Hook Scripts](https://wiki.jenkins.io/display/JENKINS/Groovy+Hook+Script).
-It offer a `GroovyBootstrap` logic which adds support of Groovy classes, debugging and correct error propagation from scripts.
-
-This demo also brings up environment which can be used to develop Jenkins Pipeline libraries locally
-and to evaluate Jenkins features like [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md).
-
-:exclamation: Warning! This image is not designed for production use.
-Use it at your own risk.
-Prototyping is in progress, compatibility of the scripts and Dockerfiles is **NOT GUARANTEED**.
-
-### Features
-
-Jenkins container starts with the following contents:
-
-* Authentication: Internal database with two users: `admin` and `user`
-  * Passwords are same as user names
-* Authorization: 
-  * [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md), 
-  powered by [Role Strategy](https://plugins.jenkins.io/role-strategy) 
-  and [Ownership](https://plugins.jenkins.io/ownership) plugins
-  * [Authorize Project](https://plugins.jenkins.io/authorize-project) is enabled by default
-    * Runs will authorize as users who triggered the build
-
-Jobs and Folders
-
-* 3 Folders on the root level: _Production_, _Development_, _System_. Folders offer different permissions to users
-* _Production_ and _System_ folders implicitly load the [ci.jenkins.io Pipeline Library](https://github.com/jenkins-infra/pipeline-library.git) 
-* _Development_ folder contains sandbox folders where common users can create and test their jobs
-* Each folder contains several reference Pipeline jobs
-
-Nodes: 
-
-* Master node is restricted for builds 
-  * It is available only to System jobs started by the `admin` user, powered by [Job Restrictions Plugin](https://plugins.jenkins.io/job-restrictions)
-* Extra agents with `linux` label are available from the Docker Cloud, 
-powered by [Yet Another Docker Plugin](https://plugins.jenkins.io/yet-another-docker-plugin)
-  * Maven cache is shared via the `maven-repo` volume
-* Master and agents offer the `mvn` and `jdk8`tools
-
-Extra UI Features:
-
-* Two extra views, the default one shows only jobs owned by the user
-* Locale is enforced to `en_US` by [Locale Plugin](https://plugins.jenkins.io/locale)
-* [Security Inspector](https://plugins.jenkins.io/security-inspector) and [Monitoring](https://plugins.jenkins.io/monitoring) plugin offer extra information
+This project offers environment for running Jenkinsfile instances from ci.jenkins.io locally.
+It is powered by Jenkinsfile Runner and Custom WAR Packager.
 
 ### Usage
 
@@ -75,14 +30,6 @@ docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -v ${MY_PIPELIN
 
 Once started, you can just start editing the Pipeline library locally.
 On every job start the changes will be reflected in the directory without committing anything.
-
-##### Debugging Master
-
-In order to debug the master, use the `-e DEBUG=true -p 5005:5005` when starting the container.
-Jenkins will be suspended on the startup in such case.
-
-If you open parent POM as a Maven project in your IDE, 
-you will be also able to debug initialization Groovy scripts.
 
 ### Building images
 
