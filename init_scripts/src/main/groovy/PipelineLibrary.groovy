@@ -10,13 +10,16 @@ println("== Configuring the Jenkins Pipeline library")
 final LibraryConfiguration lc
 File file = new File("/var/jenkins_home/pipeline-library/vars")
 if (!file.exists()) {
-    println("===== Using the Pipeline library from https://github.com/jenkins-infra/pipeline-library ")
+    // TODO: change defaults once https://github.com/jenkins-infra/pipeline-library/pull/78 is merged
+    def defaultPipelineLibRepo = "https://github.com/oleg-nenashev/pipeline-library"
+    def defaultPipelineLibBranch = "jenkinsfile-runner-support"
+    println("===== Using the Pipeline library from ${defaultPipelineLibRepo} ")
     // Include https://github.com/jenkins-infra/pipeline-library
-    def pipelineLibrarySource = new GitSCMSource("pipeline-library", "https://github.com/jenkins-infra/pipeline-library.git", null, null, null, false)
+    def pipelineLibrarySource = new GitSCMSource("pipeline-library", "${defaultPipelineLibRepo}.git", null, null, null, false)
     lc = new LibraryConfiguration("pipeline-library", new SCMSourceRetriever(pipelineLibrarySource))
     lc.with {
         implicit = true
-        defaultVersion = "master"
+        defaultVersion = defaultPipelineLibBranch
     }
     GlobalLibraries.get().libraries.add(lc)
 } else {

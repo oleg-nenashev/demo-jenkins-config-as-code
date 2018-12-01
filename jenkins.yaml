@@ -6,9 +6,18 @@ jenkins:
   myViewsTabBar: "standard"
   viewsTabBar: "standard"
 
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: JFR_LOCAL_WORKSPACE
+            value: /workspace
+          - key: PIPELINE_LIBRARY_SKIP_WINDOWS
+            value: true
+
 tool:
   git:
     installations:
     - home: "git"
       name: "Default"
+
 
