@@ -6,6 +6,7 @@ bundle:
   description: "Emulates the ci.jenkins.io environment, as Jenkinsfile Runner"
 buildSettings:
   pom: "pom.xml"
+  pomSkipItself: true
   jenkinsfileRunner:
     source:
       groupId: "io.jenkins"

@@ -4,7 +4,7 @@
 ARTIFACT_ID = jenkinsfile-runner-demo
 VERSION = 256.0-test
 CWP_MAVEN_REPO_PATH=io/jenkins/tools/custom-war-packager/custom-war-packager-cli
-CWP_VERSION=1.5-20181201.004502-1
+CWP_VERSION=1.5-20181201.012442-2
 DOCKER_TAG=onenashev/ci.jenkins.io-runner
 
 #TODO: Replace snapshot parsing by something more reliable
