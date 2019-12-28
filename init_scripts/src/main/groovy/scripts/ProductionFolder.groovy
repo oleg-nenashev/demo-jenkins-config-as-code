@@ -14,13 +14,19 @@ import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration
 import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 
+println """
+#########################################
+# boot - ProductionFolder Hook (start)  #
+#########################################
+"""
+
 println("=== Initialize the Production folder")
-if (Jenkins.instance.getItem("Production") != null) {
+if (Jenkins.getInstanceOrNull().getItem("Production") != null) {
     println("Production folder has been already initialized, skipping the step")
     return
 }
 
-def folder = Jenkins.instance.createProject(Folder.class, "Production")
+def folder = Jenkins.getInstanceOrNull().createProject(Folder.class, "Production")
 
 // Include https://github.com/jenkins-infra/pipeline-library
 def pipelineLibrarySource = new GitSCMSource("pipeline-library", "https://github.com/jenkins-infra/pipeline-library.git", null, null, null, false)
@@ -48,3 +54,9 @@ project3.setDefinition(new CpsScmFlowDefinition(source, "Jenkinsfile"))
 JobOwnerHelper.setOwnership(project3, new OwnershipDescription(true, "admin", Arrays.asList("user")))
 
 // TODO: Add Multi-Branch project, which does not build with Windows
+
+println """
+#########################################
+# boot - ProductionFolder Hook (end)    #
+#########################################
+"""

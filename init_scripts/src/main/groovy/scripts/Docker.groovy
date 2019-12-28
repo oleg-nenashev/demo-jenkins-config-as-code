@@ -15,6 +15,12 @@ import jenkins.model.Jenkins
 import jenkins.model.JenkinsLocationConfiguration
 import hudson.model.Node.Mode
 
+println """
+###############################
+# boot - Docker Hook (start)  #
+###############################
+"""
+
 println("=== Setting Jenkins URL")
 String host = java.lang.System.getProperty("io.jenkins.dev.host")
 if (host == null) {
@@ -63,7 +69,7 @@ defaultJnlpAgentTemplate.with {
 }
 
 // Custom image for Maven builds
-MavenInstallation.DescriptorImpl mavenDescriptor = Jenkins.instance.getDescriptorByType(MavenInstallation.DescriptorImpl.class);
+MavenInstallation.DescriptorImpl mavenDescriptor = Jenkins.getInstanceOrNull().getDescriptorByType(MavenInstallation.DescriptorImpl.class);
 final DockerSlaveTemplate mavenBuilderTemplate = fromTemplate("onenashev/demo-jenkins-maven-builder")
 mavenBuilderTemplate.with {
     labelString = "docker linux mvnBuilder"
@@ -81,7 +87,7 @@ mavenBuilderTemplate.with {
 }
 
 
-Jenkins.instance.clouds.add(
+Jenkins.getInstanceOrNull().clouds.add(
     new DockerCloud(
         "docker-cloud",
         [ defaultJnlpAgentTemplate, mavenBuilderTemplate ],
@@ -89,3 +95,9 @@ Jenkins.instance.clouds.add(
         //TODO: YAD Plugin does not work well with this image and Unix sockets. Would be useful to migrate
         new DockerConnector("tcp://${host}:2376"))
 )
+
+println """
+###############################
+# boot - Docker Hook (end)  #
+###############################
+"""

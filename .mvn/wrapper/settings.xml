@@ -1,0 +1,50 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <localRepository>${HOME}\.m2\repository</localRepository>
+    <interactiveMode/>
+    <offline/>
+    <pluginGroups/>
+    <servers/>
+    <mirrors>
+<!--
+        <mirror>
+            <id>mvn-repo</id>
+            <name>mvn-repo</name>
+            <url>https://mvnrepository.com/artifact</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>apache-mvn-repo</id>
+            <name>apache-mvn-repo</name>
+            <url>http://repo.apache.maven.org/maven2</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+-->
+<!--
+        <mirror>
+            <id>apache-mvn-repo1</id>
+            <name>apache-mvn-repo1</name>
+            <url>https://repo1.maven.org/maven2/</url>
+            <mirrorOf>external:*</mirrorOf>
+        </mirror>
+-->
+        <mirror>
+            <id>sonatype</id>
+            <name>sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>jenkins-ci</id>
+            <name>jenkins-ci</name>
+            <!--<url>https://repo.jenkins-ci.org/releases/</url>-->
+            <url>https://repo.jenkins-ci.org/public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+    <proxies/>
+    <profiles/>
+    <activeProfiles/>
+</settings>

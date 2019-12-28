@@ -4,11 +4,16 @@ import hudson.model.*
 import org.jenkinsci.plugins.authorizeproject.GlobalQueueItemAuthenticator
 import org.jenkinsci.plugins.authorizeproject.strategy.TriggeringUsersAuthorizationStrategy
 
+println """
+#############################
+# boot - Auth Hook (start)  #
+#############################
+"""
 
 boolean createAdmin = Boolean.getBoolean("io.jenkins.dev.security.createAdmin")
 
 println("=== Configuring users")
-def securityRealm = Jenkins.instance.getSecurityRealm()
+def securityRealm = Jenkins.getInstanceOrNull().getSecurityRealm()
 User user = securityRealm.createAccount("user", "user")
 user.setFullName("User")
 if (createAdmin) {
@@ -21,3 +26,9 @@ GlobalQueueItemAuthenticator auth = new GlobalQueueItemAuthenticator(
     new TriggeringUsersAuthorizationStrategy()
 )
 QueueItemAuthenticatorConfiguration.get().authenticators.add(auth)
+
+println """
+#############################
+# boot - Auth Hook (end)    #
+#############################
+"""

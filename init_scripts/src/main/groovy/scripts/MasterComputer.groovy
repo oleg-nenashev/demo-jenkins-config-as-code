@@ -11,8 +11,20 @@ import com.synopsys.arc.jenkins.plugins.ownership.security.jobrestrictions.Owner
 import io.jenkins.plugins.jobrestrictions.restrictions.job.JobClassNameRestriction
 import io.jenkins.plugins.jobrestrictions.util.ClassSelector
 
+println """
+###############################
+# boot - Master Hook (start)  #
+###############################
+"""
+
+
 println("== Configuring Master computer")
 
 // Admin owns the node
-NodeOwnerHelper.setOwnership(Jenkins.instance, new OwnershipDescription(true, "admin"))
+NodeOwnerHelper.setOwnership(Jenkins.getInstanceOrNull(), new OwnershipDescription(true, "admin"))
 
+println """
+###############################
+# boot - Master Hook (end)    #
+###############################
+"""

@@ -1,34 +1,42 @@
-FROM jenkins/jenkins:2.164.1
-MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
-LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
+FROM jenkins/jenkins:lts-alpine
 
-ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-COPY download-and-check-updates.sh /usr/local/bin/download-and-check-updates.sh
-RUN /usr/local/bin/download-and-check-updates.sh < /usr/share/jenkins/ref/plugins.txt
+LABEL maintainer="wolver.minion"
+LABEL Description="Setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts. thx Oleg" Vendor="Wolver" Version="0.1"
 
-COPY init_scripts/src/main/groovy/ /usr/share/jenkins/ref/init.groovy.d/
+
+USER root
+
+RUN apk add --no-cache --update openssl && \
+    rm -rf /var/cache/apk/*
+
+USER ${user}
+
+# all  plugins
+COPY master/plugins.txt ${REF}/plugins.txt
+RUN /usr/local/bin/install-plugins.sh < ${REF}/plugins.txt
+
+# hook scripts
+COPY init_scripts/src/main/groovy/ ${REF}/init.groovy.d/
 
 # TODO: It should be configurable in "docker run"
-ARG DEV_HOST=192.168.101.57
+ARG DEV_HOST=localhost
+
 ARG CREATE_ADMIN=true
-# If false, only few runs can be actually executed on the master
-# See JobRestrictions settings
 ARG ALLOW_RUNS_ON_MASTER=false
-ARG LOCAL_PIPELINE_LIBRARY_PATH=/var/jenkins_home/pipeline-library
+ARG LOCAL_PIPELINE_LIBRARY_PATH=${JENKINS_HOME}/pipeline-library
 
 ENV CONF_CREATE_ADMIN=$CREATE_ADMIN
 ENV CONF_ALLOW_RUNS_ON_MASTER=$ALLOW_RUNS_ON_MASTER
 
-# Directory for Pipeline Library development sample
+# Directory  Pipeline Library development
 ENV LOCAL_PIPELINE_LIBRARY_PATH=${LOCAL_PIPELINE_LIBRARY_PATH}
 RUN mkdir -p ${LOCAL_PIPELINE_LIBRARY_PATH}
 
-VOLUME /var/jenkins_home/pipeline-library
-VOLUME /var/jenkins_home/pipeline-libs
-EXPOSE 5005
+#COPY container/jenkins/configuration/ ${JENKINS_HOME}/
 
-COPY jenkins2.sh /usr/local/bin/jenkins2.sh
-ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
-COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
-ENTRYPOINT ["tini", "--", "/usr/local/bin/jenkins2.sh"]
+ENV CASC_JENKINS_CONFIG=${JENKINS_HOME}/casc_configs/jenkins.yaml
+COPY master/jenkins.yaml $CASC_JENKINS_CONFIG
+
+COPY master/jenkins-cx.sh /usr/local/bin/jenkins-cx.sh
+
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins-cx.sh"]

@@ -13,14 +13,21 @@ import org.jenkinsci.plugins.workflow.libs.FolderLibraries
 import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration
 import org.jenkinsci.plugins.workflow.libs.SCMRetriever
 
+println """
+#########################################
+# boot - DeploamentFolder Hook (start)  #
+#########################################
+"""
+
+
 println("=== Initialize the Development folder")
-if (Jenkins.instance.getItem("Development") != null) {
+if (Jenkins.getInstanceOrNull().getItem("Development") != null) {
     println("Development folder has been already initialized, skipping the step")
     return
 }
 
 // Admin owns the root Development folder
-def folder = Jenkins.instance.createProject(Folder.class, "Development")
+def folder = Jenkins.getInstanceOrNull().createProject(Folder.class, "Development")
 FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin"))
 
 // Users get their own sandboxes
@@ -84,3 +91,9 @@ createPipelineLibJob(pipelineLib, "sshd-module", "_findbugs", "findbugs: [archiv
 createPipelineLibJob(pipelineLib, "sshd-module", "_findbugs_checkstyle", "findbugs: [archive: true, unstableTotalAll: '0'], checkstyle: [run: true, archive: true]")
 // Just a plugin, where FindBugs really fails
 createPipelineLibJob(pipelineLib, "last-changes-plugin", "_findbugs", "findbugs: [archive: true, unstableTotalAll: '0']")
+
+println """
+#########################################
+# boot - DeploamentFolder Hook (end)    #
+#########################################
+"""

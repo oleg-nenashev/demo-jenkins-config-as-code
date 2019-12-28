@@ -8,14 +8,21 @@ import jenkins.model.Jenkins
 import com.cloudbees.hudson.plugins.folder.Folder
 import org.jenkinsci.plugins.ownership.model.folders.FolderOwnershipHelper
 
+println """
+###################################
+# boot - DemoFolder Hook (start)  #
+###################################
+"""
+
+
 println("=== Initialize the Demo folder")
-if (Jenkins.instance.getItem("Demo") != null) {
+if (Jenkins.getInstanceOrNull().getItem("Demo") != null) {
     println("Demo folder has been already initialized, skipping the step")
     return
 }
 
 // Admin owns the root Development folder
-def demoFolder = Jenkins.instance.createProject(Folder.class, "Demo")
+def demoFolder = Jenkins.getInstanceOrNull().createProject(Folder.class, "Demo")
 demoFolder.description = "Demo Pipeline jobs"
 FolderOwnershipHelper.setOwnership(demoFolder, new OwnershipDescription(true, "user"))
 
@@ -31,7 +38,7 @@ if (!new File(pipelineLibSource, "vars").exists()) { // TODO: Lame, to be fixed
 }
 
 // Loads demo from sources
-def demoSourceDir = new File(Jenkins.instance.rootDir, "init.groovy.d/demo")
+def demoSourceDir = new File(Jenkins.getInstanceOrNull().rootDir, "init.groovy.d/demo")
 if (demoSourceDir.exists()) {
     println("===== Loading demo")
     demoSourceDir.eachFile(FileType.FILES) { file ->
@@ -50,3 +57,9 @@ if (demoSourceDir.exists()) {
         }
     }
 }
+
+println """
+###################################
+# boot - DemoFolder Hook (end)    #
+###################################
+"""

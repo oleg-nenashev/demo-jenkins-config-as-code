@@ -12,7 +12,13 @@ import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration
 import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 
-def folder = Jenkins.instance.createProject(Folder.class, "System")
+println """
+#####################################
+# boot - SystemFolder Hook (start)  #
+#####################################
+"""
+
+def folder = Jenkins.getInstanceOrNull().createProject(Folder.class, "System")
 
 // Include https://github.com/jenkins-infra/pipeline-library
 def pipelineLibrarySource = new GitSCMSource("pipeline-library", "https://github.com/jenkins-infra/pipeline-library.git", null, null, null, false)
@@ -28,3 +34,9 @@ FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin
 WorkflowJob project = folder.createProject(WorkflowJob.class, "Ownership_Plugin_System_Master")
 project.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['master'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')", true))
 JobOwnerHelper.setOwnership(project, new OwnershipDescription(true, "admin"))
+
+println """
+#####################################
+# boot - SystemFolder Hook (start)  #
+#####################################
+"""

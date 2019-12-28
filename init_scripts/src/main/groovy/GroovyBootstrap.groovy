@@ -1,41 +1,16 @@
-/*
- * The MIT License
- *
- * Copyright (c) 2017 Oleg Nenashev
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 import org.codehaus.groovy.control.CompilerConfiguration
 import static java.util.logging.Level.INFO
-import static java.util.logging.Level.WARNING;
-import java.util.logging.Logger;
-import javax.annotation.Nonnull;
-import javax.servlet.ServletContext;
-import jenkins.model.Jenkins;
+import static java.util.logging.Level.WARNING
+import java.util.logging.Logger
+import javax.annotation.Nonnull
+import javax.servlet.ServletContext
+import jenkins.model.Jenkins
 
 /**
+ * see: https://github.com/oleg-nenashev/demo-jenkins-config-as-code.git
  * Bootstraps the standard Jenkins initialization logic.
  * The bootstrap adds support of Groovy classes and propagates execution failures.
  * The started scripts will be debuggable in IDE via Remote Debugger inside a running instance.
- *
- * @author Oleg Nenashev
  */
 class GroovyInitBootstrap {
     private final Binding bindings = new Binding()
@@ -102,5 +77,5 @@ class GroovyInitBootstrap {
     private static final Logger LOGGER = Logger.getLogger(GroovyBootstrap.class.getName());
 }
 
-GroovyInitBootstrap bootstrap = new GroovyInitBootstrap(Jenkins.instance)
+GroovyInitBootstrap bootstrap = new GroovyInitBootstrap(Jenkins.getInstanceOrNull())
 bootstrap.run()

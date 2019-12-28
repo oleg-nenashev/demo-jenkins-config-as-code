@@ -5,6 +5,12 @@ import jenkins.model.Jenkins
 import hudson.model.ListView
 import hudson.views.ListViewColumn
 
+println """
+##############################
+# boot - Views Hook (start)  #
+##############################
+"""
+
 // Additional view, which also shows owners
 ListView withOwnership = new ListView("With ownership")
 List<ListViewColumn> columns = new LinkedList<>(withOwnership.getColumns())
@@ -13,7 +19,7 @@ withOwnership.with {
     includeRegex = ".*"
     columns = columns
 }
-Jenkins.instance.addView(withOwnership)
+Jenkins.getInstanceOrNull().addView(withOwnership)
 
 // Default view, which recursively shows jobs owned by the current user
 ListView myJobs = new ListView("My jobs")
@@ -25,6 +31,12 @@ myJobs.with {
     columns = columns
 }
 myJobs.jobFilters.add(new OwnershipJobFilter("@Me", true))
-Jenkins.instance.addView(myJobs)
+Jenkins.getInstanceOrNull().addView(myJobs)
 
-Jenkins.instance.setPrimaryView(myJobs)
+Jenkins.getInstanceOrNull().setPrimaryView(myJobs)
+
+println """
+##############################
+# boot - Views Hook (start)  #
+##############################
+"""
