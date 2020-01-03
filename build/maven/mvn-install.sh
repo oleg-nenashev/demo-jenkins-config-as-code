@@ -1,0 +1,9 @@
+#!/bin/sh -e
+BASEDIR=$(dirname "$0")
+
+MAVEN_SETTINGS_DEFAULT='.mvn/wrapper/settings.xml'
+WORKSPACE_DEFAULT='../..'
+WORKSPACE=${1:-${WORKSPACE_DEFAULT}}
+MAVEN_SETTINGS=${2:-${MAVEN_SETTINGS_DEFAULT}}
+
+${WORKSPACE}/mvnw install -s ${WORKSPACE}/${MAVEN_SETTINGS}

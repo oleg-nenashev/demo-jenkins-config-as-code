@@ -10,9 +10,9 @@
   </parent>
 
   <groupId>com.cx.jenkins.systemgroovy</groupId>
-  <artifactId>initscripts</artifactId>
-  <name>Jenkins-CX Hook Scripts</name>
-  <description>Initialization Hook Scripts for Jenkins-CX</description>
+  <artifactId>pipeline-library</artifactId>
+  <name>Jenkins-CX Pipeline Library Scripts</name>
+  <description>Pipeline Library Scripts for Jenkins-CX</description>
   <version>1.0.0-SNAPSHOT</version>
 
   <developers>
@@ -79,7 +79,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>git</artifactId>
-      <version>4.1.0-beta</version>
+      <version>4.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -200,25 +200,25 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>log4j-over-slf4j</artifactId>
-      <version>2.0.0-alpha1</version>
+      <version>1.7.26</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>2.0.0-alpha1</version>
+      <version>1.7.26</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>2.0.0-alpha1</version>
+      <version>1.7.26</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>2.0.0-alpha1</version>
+      <version>1.7.26</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

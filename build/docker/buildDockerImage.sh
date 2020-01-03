@@ -1,3 +1,7 @@
 #!/bin/sh euw
+BASEDIR=$(dirname "$0")
 
-docker build -t jenkins-cx ../
+WORKSPACE_DEFAULT='../..'
+WORKSPACE=${1:-${WORKSPACE_DEFAULT}}
+
+docker build --no-cache --pull -t jenkins-cx ${WORKSPACE}

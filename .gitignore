@@ -13,3 +13,4 @@
 /.idea/
 /init_scripts/initscripts.iml
 /init_scripts/target/
+/pipeline_library/target/

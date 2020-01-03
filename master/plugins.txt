@@ -1,4 +1,4 @@
-authorize-project:latest1.30
+authorize-project:1.3.0
 blueocean:latest
 checkstyle:latest
 cloudbees-folder:6.9
@@ -13,7 +13,7 @@ git:latest
 jacoco:latest
 jdk-tool:latest
 job-restrictions:latest
-junit:latest
+:latest
 kubernetes:latest
 locale:latest
 mailer:latest

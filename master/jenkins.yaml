@@ -93,6 +93,28 @@ jenkins:
               - "Agent/Build"
             assignments:
               - "authenticated"
+unclassified:
+  globalLibraries:
+    libraries:
+      - defaultVersion: "master"
+        name: "jenkins-cx-shared-library"
+        retriever:
+          modernSCM:
+            scm:
+              github:
+                configuredByUrl: true
+                id: "ff703f81-cdea-48aa-8e3e-abf19d979bb5"
+                repoOwner: "Continuous-X"
+                repository: "jenkins-cx-shared-library"
+                repositoryUrl: "https://github.com/Continuous-X/jenkins-cx-shared-library.git"
+                traits:
+                  - gitHubBranchDiscovery:
+                      strategyId: 1
+                  - originPullRequestDiscoveryTrait:
+                      strategyId: 1
+                  - gitHubForkDiscovery:
+                      strategyId: 1
+                      trust: "gitHubTrustPermissions"
 tool:
   git:
     installations:

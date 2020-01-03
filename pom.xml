@@ -29,6 +29,7 @@
 
   <modules>
     <module>init_scripts</module>
+    <module>pipeline_library</module>
   </modules>
   
   <repositories>
