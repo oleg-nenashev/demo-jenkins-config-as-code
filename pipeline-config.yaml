@@ -1,0 +1,3 @@
+general:
+  componentName: "jenkins-cx"
+  productiveBranch: "master"
