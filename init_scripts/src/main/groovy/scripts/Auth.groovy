@@ -21,11 +21,11 @@ if (createAdmin) {
     admin.setFullName("Admin")
 }
 
-println("=== Configure Authorize Project")
+/*println("=== Configure Authorize Project")
 GlobalQueueItemAuthenticator auth = new GlobalQueueItemAuthenticator(
     new TriggeringUsersAuthorizationStrategy()
 )
-QueueItemAuthenticatorConfiguration.get().authenticators.add(auth)
+QueueItemAuthenticatorConfiguration.get().authenticators.add(auth)*/
 
 println """
 #############################

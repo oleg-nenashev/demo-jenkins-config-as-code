@@ -19,7 +19,7 @@ JDK jdk8 = new JDK("jdk8", "")
 Jenkins.getInstanceOrNull().getDescriptorByType(JDK.DescriptorImpl.class).setInstallations(jdk7, jdk8)
 
 
-InstallSourceProperty p = new InstallSourceProperty([new Maven.MavenInstaller("3.5.0")])
+InstallSourceProperty p = new InstallSourceProperty([new Maven.MavenInstaller("3.6.3")])
 MavenInstallation mvn = new MavenInstallation("mvn", null, [p])
 Jenkins.getInstanceOrNull().getDescriptorByType(Maven.DescriptorImpl.class).setInstallations(mvn)
 

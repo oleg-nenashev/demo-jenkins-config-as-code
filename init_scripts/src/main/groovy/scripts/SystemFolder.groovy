@@ -18,6 +18,7 @@ println """
 #####################################
 """
 
+/*
 def folder = Jenkins.getInstanceOrNull().createProject(Folder.class, "System")
 
 // Include https://github.com/jenkins-infra/pipeline-library
@@ -29,11 +30,14 @@ folder.addProperty(new FolderLibraries([lc]))
 folder.setDescription("This directory belongs to the Jenkins administrator. " +
     "By default he is eligible to run jobs from this Folder on the Master")
 FolderOwnershipHelper.setOwnership(folder, new OwnershipDescription(true, "admin"))
+*/
 
 // Add a sample project
+/*
 WorkflowJob project = folder.createProject(WorkflowJob.class, "Ownership_Plugin_System_Master")
 project.setDefinition(new CpsFlowDefinition("buildPlugin(platforms: ['master'], repo: 'https://github.com/jenkinsci/ownership-plugin.git')", true))
 JobOwnerHelper.setOwnership(project, new OwnershipDescription(true, "admin"))
+*/
 
 println """
 #####################################

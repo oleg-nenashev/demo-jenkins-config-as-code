@@ -21,7 +21,7 @@ println """
 println("== Configuring Master computer")
 
 // Admin owns the node
-NodeOwnerHelper.setOwnership(Jenkins.getInstanceOrNull(), new OwnershipDescription(true, "admin"))
+//NodeOwnerHelper.setOwnership(Jenkins.getInstanceOrNull(), new OwnershipDescription(true, "admin"))
 
 println """
 ###############################

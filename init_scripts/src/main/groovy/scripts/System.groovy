@@ -33,7 +33,7 @@ Mailer.descriptor().defaultSuffix = "@non.existent.email"
 println("--- Configuring Locale")
 //TODO: Create ticket to get better API
 PluginImpl localePlugin = (PluginImpl)Jenkins.getInstanceOrNull().getPlugin("locale")
-localePlugin.systemLocale = "en_US"
+localePlugin.systemLocale = "de_DE"
 localePlugin.@ignoreAcceptLanguage=true
 
 println """
