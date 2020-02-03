@@ -20,6 +20,7 @@
   <properties>
     <jenkins.version>2.204.1</jenkins.version>
     <java.level>8</java.level>
+    <groovy.version>2.4.12</groovy.version>
   </properties>
 
 
@@ -42,6 +43,10 @@
   <modules>
     <module>init_scripts</module>
   </modules>
+
+  <scm>
+    <url>https://maven.pkg.github.com/Continuous-X/jenkins-cx</url>
+  </scm>
 
   <dependencyManagement>
     <dependencies>
@@ -201,6 +206,19 @@
         <artifactId>slf4j-api</artifactId>
         <version>2.0.0-alpha1</version>
       </dependency>
+      <!-- my dependencies -->
+      <dependency>
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-all</artifactId>
+        <version>${groovy.version}</version>
+      </dependency>
+<!--
+      <dependency>
+        <groupId>com.cx.jenkins.sharedlib</groupId>
+        <artifactId>jenkins-cx-shared-lib</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+-->
     </dependencies>
   </dependencyManagement>
 
@@ -318,51 +336,11 @@
       <artifactId>ownership</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <!-- dependency plugins fix versions -->
+    <!-- my dependencies -->
 <!--
     <dependency>
-      <groupId>org.jenkins-ci.plugins.workflow</groupId>
-      <artifactId>workflow-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jenkins-ci.plugins.workflow</groupId>
-      <artifactId>workflow-step-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
--->
-    <!-- dependency fix versions -->
-<!--
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.annotation</groupId>
-      <artifactId>javax.annotation-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <scope>provided</scope>
+      <groupId>com.cx.jenkins.sharedlib</groupId>
+      <artifactId>jenkins-cx-shared-lib</artifactId>
     </dependency>
 -->
   </dependencies>
@@ -375,6 +353,10 @@
           <groupId>org.codehaus.gmavenplus</groupId>
           <artifactId>gmavenplus-plugin</artifactId>
           <version>1.8.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.0.0-M1</version> <!-- TODO >3.0.0-M1 when MDEPLOY-244 is fixed (likely to cause security release issues without) -->
         </plugin>
       </plugins>
     </pluginManagement>
@@ -394,12 +376,14 @@
         </executions>
         <configuration>
           <sources>
+<!--
             <source>
               <directory>${project.basedir}</directory>
               <includes>
                 <include>Jenkinsfile</include>
               </includes>
             </source>
+-->
           </sources>
           <groovyDocOutputDirectory>target/site/apidocs</groovyDocOutputDirectory>
         </configuration>
@@ -407,18 +391,18 @@
     </plugins>
   </build>
 
-  <repositories>
+  <distributionManagement>
     <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/public/</url>
+      <id>github-cx</id>
+      <uniqueVersion>false</uniqueVersion>
+      <name>GitHub Continuous-X Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/Continuous-X/jenkins-cx/</url>
     </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
-
+    <snapshotRepository>
+      <id>github-cx</id>
+      <name>GitHub Continuous-X Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/Continuous-X/jenkins-cx/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

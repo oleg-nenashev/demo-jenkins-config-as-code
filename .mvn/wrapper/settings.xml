@@ -6,30 +6,14 @@
     <interactiveMode/>
     <offline/>
     <pluginGroups/>
-    <servers/>
+    <servers>
+        <server>
+            <id>github-cx</id>
+            <username>${github.username}</username>
+            <password>${github.password}</password>
+        </server>
+    </servers>
     <mirrors>
-<!--
-        <mirror>
-            <id>mvn-repo</id>
-            <name>mvn-repo</name>
-            <url>https://mvnrepository.com/artifact</url>
-            <mirrorOf>*</mirrorOf>
-        </mirror>
-        <mirror>
-            <id>apache-mvn-repo</id>
-            <name>apache-mvn-repo</name>
-            <url>http://repo.apache.maven.org/maven2</url>
-            <mirrorOf>*</mirrorOf>
-        </mirror>
--->
-<!--
-        <mirror>
-            <id>apache-mvn-repo1</id>
-            <name>apache-mvn-repo1</name>
-            <url>https://repo1.maven.org/maven2/</url>
-            <mirrorOf>external:*</mirrorOf>
-        </mirror>
--->
         <mirror>
             <id>sonatype</id>
             <name>sonatype</name>
@@ -39,12 +23,30 @@
         <mirror>
             <id>jenkins-ci</id>
             <name>jenkins-ci</name>
-            <!--<url>https://repo.jenkins-ci.org/releases/</url>-->
             <url>https://repo.jenkins-ci.org/public/</url>
             <mirrorOf>central</mirrorOf>
         </mirror>
     </mirrors>
     <proxies/>
-    <profiles/>
-    <activeProfiles/>
+
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>github-cx-profile</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </repository>
+                <repository>
+                    <id>github-cx</id>
+                    <url>https://maven.pkg.github.com/Continuous-X/jenkins-cx/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </settings>

@@ -11,6 +11,5 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 /.idea/
-/init_scripts/initscripts.iml
-/init_scripts/target/
-/pipeline_library/target/
+**/target/
+**/*.iml
