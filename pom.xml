@@ -95,7 +95,7 @@
       <dependency>
         <groupId>org.csanchez.jenkins.plugins</groupId>
         <artifactId>kubernetes</artifactId>
-        <version>1.23.1</version>
+        <version>1.23.2</version>
       </dependency>
       <dependency>
         <groupId>org.jenkins-ci.plugins</groupId>
