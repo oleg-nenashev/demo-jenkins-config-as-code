@@ -65,7 +65,7 @@
       <dependency>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>cloudbees-folder</artifactId>
-        <version>6.11</version>
+        <version>6.11.1</version>
       </dependency>
       <dependency>
         <groupId>org.jenkins-ci.plugins</groupId>
