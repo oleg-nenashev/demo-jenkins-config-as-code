@@ -14,7 +14,7 @@
   <artifactId>parent</artifactId>
   <name>Jenkins-CX Parent</name>
   <description>Jenkins-CX Parent POM</description>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -45,7 +45,7 @@
   </modules>
 
   <scm>
-    <url>https://maven.pkg.github.com/Continuous-X/jenkins-cx</url>
+    <url>https://maven.pkg.github.com/Continuous-X/jenkins-cx/</url>
   </scm>
 
   <dependencyManagement>
