@@ -10,6 +10,7 @@ GITHUB_USER=${2:-${GITHUB_USER_DEFAULT}}
 GITHUB_PWD=${3:-${GITHUB_PWD_DEFAULT}}
 MAVEN_SETTINGS=${4:-${MAVEN_SETTINGS_DEFAULT}}
 
+MAVEN_PARAMS="-s ${WORKSPACE}/${MAVEN_SETTINGS} -e"
+#  -Dgithub.username=${GITHUB_USER} -Dgithub.password=${GITHUB_PWD}"
 
-
-${WORKSPACE}/mvnw -Dmaven.wagon.http.pool=false clean deploy -s ${WORKSPACE}/${MAVEN_SETTINGS} -e  -Dgithub.username=${GITHUB_USER} -Dgithub.password=${GITHUB_PWD}
+${WORKSPACE}/mvnw -Dmaven.wagon.http.pool=false clean deploy ${MAVEN_PARAMS}
