@@ -19,4 +19,4 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run: sh build/maven/mvn-package.sh  .
+        run: export MAVEN_REPOSITORY=.m2/repository && sh .build/maven/mvn-package.sh .
