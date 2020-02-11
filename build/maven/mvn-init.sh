@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 BASEDIR=$(dirname "$0")
 
 MAVEN_SETTINGS_DEFAULT='.mvn/wrapper/settings.xml'

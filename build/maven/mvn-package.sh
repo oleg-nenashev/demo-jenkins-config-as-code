@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 BASEDIR=$(dirname "$0")
 
 source ${BASEDIR}/mvn-init.sh "$@"
