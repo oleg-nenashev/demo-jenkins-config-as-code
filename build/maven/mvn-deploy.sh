@@ -1,16 +1,8 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 BASEDIR=$(dirname "$0")
 
-MAVEN_SETTINGS_DEFAULT='.mvn/wrapper/settings.xml'
-WORKSPACE_DEFAULT='../..'
-GITHUB_USER_DEFAULT='username'
-GITHUB_PWD_DEFAULT='xxxxxx'
-WORKSPACE=${1:-${WORKSPACE_DEFAULT}}
-GITHUB_USER=${2:-${GITHUB_USER_DEFAULT}}
-GITHUB_PWD=${3:-${GITHUB_PWD_DEFAULT}}
-MAVEN_SETTINGS=${4:-${MAVEN_SETTINGS_DEFAULT}}
+. ${BASEDIR}/mvn-init.sh "$@"
 
-MAVEN_PARAMS="-s ${WORKSPACE}/${MAVEN_SETTINGS} -e"
 #  -Dgithub.username=${GITHUB_USER} -Dgithub.password=${GITHUB_PWD}"
 
-${WORKSPACE}/mvnw -Dmaven.wagon.http.pool=false clean deploy ${MAVEN_PARAMS}
+runMvnw '-Dmaven.wagon.http.pool=false clean deploy'

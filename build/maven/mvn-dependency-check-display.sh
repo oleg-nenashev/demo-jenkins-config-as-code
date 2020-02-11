@@ -1,7 +1,7 @@
 #!/bin/sh -e
 BASEDIR=$(dirname "$0")
 
-source ${BASEDIR}/mvn-init.sh "$@"
+. ${BASEDIR}/mvn-init.sh "$@"
 
 runMvnw 'versions:update-parent'
 runMvnw 'versions:display-plugin-updates'
