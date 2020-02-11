@@ -21,4 +21,4 @@ jobs:
       - name: Build with Maven
         run: |
           export MAVEN_REPOSITORY=.m2/repository
-          sh .build/maven/mvn-package.sh .
+          sh build/maven/mvn-package.sh .
