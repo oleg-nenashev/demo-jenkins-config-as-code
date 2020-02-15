@@ -19,8 +19,8 @@ jobs:
         with:
           java-version: '11.x'
       - name: check env
-          run: |
-            set
+        run: |
+          set
       - name: Build & Test
         run: |
           bash build/maven/mvn-install.sh .

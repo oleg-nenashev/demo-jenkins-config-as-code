@@ -17,8 +17,8 @@ jobs:
         with:
           java-version: '11.x'
       - name: create version number
-          run: |
-            echo $(echo $GITHUB_SHA | cut -c1-7) > .version
+        run: |
+          echo $(echo $GITHUB_SHA | cut -c1-7) > .version
       - name: Build & Test
         run: |
           sh build/maven/mvn-install.sh . '.m2/repository'
