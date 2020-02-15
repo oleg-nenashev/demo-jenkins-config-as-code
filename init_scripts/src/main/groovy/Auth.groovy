@@ -1,8 +1,6 @@
+import hudson.model.User
+import hudson.security.SecurityRealm
 import jenkins.model.Jenkins
-import jenkins.security.QueueItemAuthenticatorConfiguration
-import hudson.model.*
-import org.jenkinsci.plugins.authorizeproject.GlobalQueueItemAuthenticator
-import org.jenkinsci.plugins.authorizeproject.strategy.TriggeringUsersAuthorizationStrategy
 
 println """
 #############################
@@ -13,7 +11,7 @@ println """
 boolean createAdmin = Boolean.getBoolean("io.jenkins.dev.security.createAdmin")
 
 println("=== Configuring users")
-def securityRealm = Jenkins.getInstanceOrNull().getSecurityRealm()
+SecurityRealm securityRealm = Jenkins.getInstanceOrNull().getSecurityRealm()
 User user = securityRealm.createAccount("user", "user")
 user.setFullName("User")
 if (createAdmin) {

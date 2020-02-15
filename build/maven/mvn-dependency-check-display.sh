@@ -1,11 +1,8 @@
-#!/bin/sh -e
+#!/bin/bash -e
 BASEDIR=$(dirname "$0")
 
-MAVEN_SETTINGS_DEFAULT='.mvn/wrapper/settings.xml'
-WORKSPACE_DEFAULT='../..'
-WORKSPACE=${1:-${WORKSPACE_DEFAULT}}
-MAVEN_SETTINGS=${2:-${MAVEN_SETTINGS_DEFAULT}}
+. ${BASEDIR}/mvn-init.sh "$@"
 
-${WORKSPACE}/mvnw versions:update-parent -s ${WORKSPACE}/${MAVEN_SETTINGS}
-${WORKSPACE}/mvnw versions:display-plugin-updates -s ${WORKSPACE}/${MAVEN_SETTINGS}
-${WORKSPACE}/mvnw versions:display-dependency-updates -s ${WORKSPACE}/${MAVEN_SETTINGS}
+runMvnw 'versions:update-parent'
+runMvnw 'versions:display-plugin-updates'
+runMvnw 'versions:display-dependency-updates'

@@ -1,9 +1,6 @@
-#!/bin/sh -e
+#!/bin/bash -ex
 BASEDIR=$(dirname "$0")
 
-MAVEN_SETTINGS_DEFAULT='.mvn/wrapper/settings.xml'
-WORKSPACE_DEFAULT='../..'
-WORKSPACE=${1:-${WORKSPACE_DEFAULT}}
-MAVEN_SETTINGS=${2:-${MAVEN_SETTINGS_DEFAULT}}
+. ${BASEDIR}/mvn-init.sh "$@"
 
-${WORKSPACE}/mvnw clean package -s ${WORKSPACE}/${MAVEN_SETTINGS}
+runMvnw 'clean package'
