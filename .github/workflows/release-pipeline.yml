@@ -21,13 +21,13 @@ jobs:
           echo $(echo $GITHUB_SHA | cut -c1-7) > .version
       - name: Build & Test
         run: |
-          sh build/maven/mvn-install.sh . '.m2/repository'
+          bash build/maven/mvn-install.sh . '.m2/repository'
       - name: set version
         run: |
           ./mvnw versions:set -DnewVersion="$(cat .version)"
       - name: upload artifact
         run: |
-          sh build/maven/mvn-deploy.sh . '.m2/repository'
+          bash build/maven/mvn-deploy.sh . '.m2/repository'
         env:
           GITHUB_USERNAME: x-access-token
           GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}

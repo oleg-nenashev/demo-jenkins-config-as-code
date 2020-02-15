@@ -2,15 +2,15 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                           https://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <localRepository>${MAVEN_REPOSITORY}</localRepository>
+    <localRepository>${env.MAVEN_REPOSITORY}</localRepository>
     <interactiveMode/>
     <offline/>
     <pluginGroups/>
     <servers>
         <server>
             <id>github-cx</id>
-            <username>${github.username}</username>
-            <password>${github.password}</password>
+            <username>${env.GITHUB_USERNAME}</username>
+            <password>${env.GITHUB_PASSWORD}</password>
         </server>
     </servers>
     <mirrors>
