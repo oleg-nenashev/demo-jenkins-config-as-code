@@ -23,6 +23,4 @@ jobs:
           set
       - name: Build & Test
         run: |
-          bash build/maven/mvn-install.sh .
-        env:
-          MAVEN_REPOSITORY: '.m2/repository'
+          bash build/maven/mvn-install.sh . '.m2/repository'

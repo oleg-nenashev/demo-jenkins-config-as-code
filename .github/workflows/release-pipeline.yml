@@ -23,7 +23,7 @@ jobs:
         run: |
           sh build/maven/mvn-install.sh . '.m2/repository'
       - name: set version
-        run:|
+        run: |
           ./mvnw versions:set -DnewVersion="$(cat .version)"
       - name: upload artifact
         run: |
