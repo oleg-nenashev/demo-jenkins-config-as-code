@@ -1,0 +1,18 @@
+version: 1
+update_configs:
+  - package_manager: "java:maven"
+    directory: "/"
+    update_schedule: "daily"
+    target_branch: "master"
+    commit_message:
+      prefix: "fix"
+         prefix_development: "chore"
+         include_scope: true"
+  - package_manager: "docker"
+    directory: "/"
+    update_schedule: "daily"
+    target_branch: "master"
+    commit_message:
+      prefix: "fix"
+        prefix_development: "chore"
+        include_scope: true"
