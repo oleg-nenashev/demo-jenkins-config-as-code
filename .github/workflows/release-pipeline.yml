@@ -26,7 +26,7 @@ jobs:
           MAVEN_REPOSITORY: '.m2/repository'
       - name: set version
         run: |
-          ./mvnw versions:set -DnewVersion="$(cat .version)"
+          ./mvnw versions:set -DnewVersion="$(cat .version)" -s '.mvn/wrapper/settings.xml'
       - name: upload artifact
         run: |
           bash build/maven/mvn-deploy.sh . '.m2/repository'
