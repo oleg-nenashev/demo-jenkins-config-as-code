@@ -21,21 +21,22 @@ jobs:
       - name: check env
         run: |
           set
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: get version number
         run: |
           chmod 777 mvnw
           ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s '.mvn/wrapper/settings.xml'
           cat .version | cut -d'-' -f 1 > .version
           export ARTIFACT_VERSION="$(cat .version)"
-      - name: Create GH Release
-        uses: softprops/action-gh-release@v1
-        #if: startsWith(github.ref, 'refs/tags/')
-        with:
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build & Test Groovy
         run: |
           bash build/maven/mvn-install.sh .
