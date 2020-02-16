@@ -21,8 +21,32 @@ jobs:
       - name: check env
         run: |
           set
+      - name: get version number
+        run: |
+          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s '.mvn/wrapper/settings.xml'
+          cat .version | cut -d'-' -f 1 > .version
       - name: Build & Test Groovy
         run: |
           bash build/maven/mvn-install.sh .
         env:
           MAVEN_REPOSITORY: '.m2/repository'
+      - name: Build Docker
+        run: |
+          bash  build/docker/docker-build.sh .
+      - name: set version
+        run: |
+          ./mvnw versions:set -DnewVersion="$(cat .version)" -s '.mvn/wrapper/settings.xml'
+      - name: Create GH Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false

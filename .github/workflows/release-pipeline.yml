@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: CI Jenkins-CX
+    name: CI Jenkins-CX Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,12 +16,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11.x'
-      - name: create version number
+      - name: get version number
         run: |
-          echo $(echo $GITHUB_SHA | cut -c1-7) > .version
+          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s '.mvn/wrapper/settings.xml'
       - name: Build & Test
         run: |
-          bash build/maven/mvn-install.sh . '.m2/repository'
+          bash build/maven/mvn-install.sh .
         env:
           MAVEN_REPOSITORY: '.m2/repository'
       - name: set version
@@ -29,7 +29,7 @@ jobs:
           ./mvnw versions:set -DnewVersion="$(cat .version)" -s '.mvn/wrapper/settings.xml'
       - name: upload artifact
         run: |
-          bash build/maven/mvn-deploy.sh . '.m2/repository'
+          bash build/maven/mvn-deploy.sh .
         env:
           MAVEN_REPOSITORY: '.m2/repository'
           GITHUB_USERNAME: x-access-token
