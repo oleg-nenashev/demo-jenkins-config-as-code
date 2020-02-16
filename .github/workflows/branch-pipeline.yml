@@ -21,21 +21,6 @@ jobs:
       - name: check env
         run: |
           set
-      - name: Create GH Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: false
-          tag_name: 1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: get version number
-        run: |
-          chmod 777 mvnw
-          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s '.mvn/wrapper/settings.xml'
-          cat .version | cut -d'-' -f 1 > .version
-          export ARTIFACT_VERSION="$(cat .version)"
       - name: Build & Test Groovy
         run: |
           bash build/maven/mvn-install.sh .
@@ -44,6 +29,3 @@ jobs:
       - name: Build Docker
         run: |
           bash  build/docker/docker-build.sh .
-      - name: set version
-        run: |
-          ./mvnw versions:set -DnewVersion="$(cat .version)" -s '.mvn/wrapper/settings.xml'
