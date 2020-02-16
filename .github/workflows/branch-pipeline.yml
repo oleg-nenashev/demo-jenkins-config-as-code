@@ -29,7 +29,7 @@ jobs:
           export ARTIFACT_VERSION="$(cat .version)"
       - name: Create GH Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        #if: startsWith(github.ref, 'refs/tags/')
         with:
           body_path: CHANGELOG.md
           draft: false
