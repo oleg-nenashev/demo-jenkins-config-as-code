@@ -1,4 +1,4 @@
-#!/bin/sh euw
+#!/bin/bash euw
 BASEDIR=$(dirname "$0")
 
 WORKSPACE_DEFAULT='../..'
