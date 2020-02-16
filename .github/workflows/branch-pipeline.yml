@@ -27,7 +27,7 @@ jobs:
           body_path: CHANGELOG.md
           draft: false
           prerelease: false
-          tag_name: ${{ github.ref }}
+          tag_name: 1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: get version number
