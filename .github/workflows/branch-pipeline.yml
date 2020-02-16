@@ -23,6 +23,7 @@ jobs:
           set
       - name: get version number
         run: |
+          chmod 777 mvnw
           ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s '.mvn/wrapper/settings.xml'
           cat .version | cut -d'-' -f 1 > .version
       - name: Build & Test Groovy
