@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: CI Jenkins-CX
+    name: CI Jenkins-CX Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,21 +16,37 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11.x'
-      - name: create version number
+      - name: get version number
         run: |
-          echo $(echo $GITHUB_SHA | cut -c1-7) > .version
+          chmod 777 mvnw
+          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s '.mvn/wrapper/settings.xml'
+          cat .version | cut -d'-' -f 1 > .version
+          export ARTIFACT_VERSION="$(cat .version)"
       - name: Build & Test
         run: |
-          bash build/maven/mvn-install.sh . '.m2/repository'
+          bash build/maven/mvn-install.sh .
         env:
           MAVEN_REPOSITORY: '.m2/repository'
+      - name: Build Docker
+        run: |
+          bash  build/docker/docker-build.sh .
       - name: set version
         run: |
-          ./mvnw versions:set -DnewVersion="$(cat .version)"
+          ./mvnw versions:set -DnewVersion="$(cat .version)" -s '.mvn/wrapper/settings.xml'
       - name: upload artifact
         run: |
-          bash build/maven/mvn-deploy.sh . '.m2/repository'
+          bash build/maven/mvn-deploy.sh .
         env:
           MAVEN_REPOSITORY: '.m2/repository'
           GITHUB_USERNAME: x-access-token
           GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
