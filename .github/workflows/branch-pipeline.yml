@@ -21,7 +21,7 @@ jobs:
       - name: check env
         run: |
           set
-      - name: Build & Test
+      - name: Build & Test Groovy
         run: |
           bash build/maven/mvn-install.sh .
         env:

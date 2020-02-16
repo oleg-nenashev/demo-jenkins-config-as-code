@@ -6,13 +6,13 @@ update_configs:
     target_branch: "master"
     commit_message:
       prefix: "fix"
-         prefix_development: "chore"
-         include_scope: true"
+      prefix_development: "chore"
+      include_scope: true
   - package_manager: "docker"
     directory: "/"
     update_schedule: "daily"
     target_branch: "master"
     commit_message:
       prefix: "fix"
-        prefix_development: "chore"
-        include_scope: true"
+      prefix_development: "chore"
+      include_scope: true
