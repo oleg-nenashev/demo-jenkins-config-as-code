@@ -7,13 +7,13 @@ WORKSPACE_DEFAULT='../..'
 GITHUB_USER_DEFAULT='username'
 GITHUB_PWD_DEFAULT='xxxxxx'
 
-if test -v "${MAVEN_REPOSITORY}"; then
+if [ -v "${MAVEN_REPOSITORY}" ]; then
     MAVEN_REPOSITORY_DEFAULT="${MAVEN_REPOSITORY}"
 fi
-if test -v "${GITHUB_USERNAME}"; then
+if [ -v "${GITHUB_USERNAME}" ]; then
     GITHUB_USER_DEFAULT="${GITHUB_USERNAME}"
 fi
-if test -v "${GITHUB_PASSWORD}"; then
+if [ -v "${GITHUB_PASSWORD}" ]; then
     GITHUB_PWD_DEFAULT="${GITHUB_PASSWORD}"
 fi
 
