@@ -39,7 +39,7 @@ jobs:
         env:
           MAVEN_REPOSITORY: '.m2/repository'
           GITHUB_USERNAME: x-access-token
-          GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       - name: Create GH Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
