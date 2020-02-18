@@ -23,7 +23,7 @@ jobs:
           set
       - name: Build & Test Groovy
         run: |
-          bash build/maven/mvn-install.sh .
+          bash build/maven/mvn-install.sh . '.m2/repository'
         env:
           MAVEN_REPOSITORY: '.m2/repository'
       - name: Build Docker
