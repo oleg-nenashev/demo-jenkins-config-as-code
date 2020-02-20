@@ -22,14 +22,7 @@ jobs:
       - name: get version number
         run: |
           bash build/maven/mvn-get-release-version.sh . '.m2/repository'
-      - name: Create GH Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/heads/master')
-        with:
-          body_path: RELEASE.md
-          draft: false
-          prerelease: false
-          tag_name: ${{ env.MAVEN_RELEASE_VERSION }}
+      - uses: toolmantim/release-drafter@v5.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build & Test
