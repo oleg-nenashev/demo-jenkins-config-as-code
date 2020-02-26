@@ -43,10 +43,10 @@ jobs:
           export MAVEN_REPOSITORY='.m2/repository'
           export GITHUB_USERNAME='x-access-token'
           export GITHUB_PASSWORD=${{ secrets.GITHUB_TOKEN }}
-          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version
+          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version -s .mvn/wrapper/settings.xml
           MAVEN_RELEASE_VERSION=$(cat .version | cut -d'-' -f1)
-          ./mvnw versions:set -DnewVersion=${MAVEN_RELEASE_VERSION}
-          ./mvnw deploy -s .mvn/wrapper/settings.xml
+          ./mvnw versions:set -DnewVersion=${MAVEN_RELEASE_VERSION} -s .mvn/wrapper/settings.xml
+          ./mvnw clean deploy -s .mvn/wrapper/settings.xml
       - name: Build Docker
         run: |
           bash  build/docker/docker-build.sh .
