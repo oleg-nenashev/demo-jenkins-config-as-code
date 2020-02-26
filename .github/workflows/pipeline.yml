@@ -1,0 +1,52 @@
+name: CI Jenkins-CX Pipeline
+on:
+  push:
+    branches:
+      - feature/*
+      - fix/*
+      - bugfix/*
+      - master
+jobs:
+  build:
+    name: CI Jenkins-CX Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - name: check env
+        run: |
+          set
+      - name: Build & Test Groovy (branch)
+        if: github.ref != 'refs/heads/master'
+        run: |
+          pwd
+          ls -la
+          chmod 777 mvnw
+          export MAVEN_REPOSITORY='.m2/repository'
+          ./mvnw clean install -s .mvn/wrapper/settings.xml
+      - name: Bump version and push tag (master)
+        uses: anothrNick/github-tag-action@1.17.2
+        if: github.ref == 'refs/heads/master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          WITH_V: true
+          RELEASE_BRANCHES: master
+      - name: Build,Test & Upload Package (master)
+        if: github.ref == 'refs/heads/master'
+        run: |
+          chmod 777 mvnw
+          export MAVEN_REPOSITORY='.m2/repository'
+          export GITHUB_USERNAME='x-access-token'
+          export GITHUB_PASSWORD=${{ secrets.GITHUB_TOKEN }}
+          ./mvnw help:evaluate -Dexpression=project.version -Doutput=.version
+          MAVEN_RELEASE_VERSION=$(cat .version | cut -d'-' -f1)
+          ./mvnw versions:set -DnewVersion=${MAVEN_RELEASE_VERSION}
+          ./mvnw deploy -s .mvn/wrapper/settings.xml
+      - name: Build Docker
+        run: |
+          bash  build/docker/docker-build.sh .
