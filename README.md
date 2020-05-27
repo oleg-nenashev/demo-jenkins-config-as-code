@@ -18,8 +18,14 @@ Prototyping is in progress, compatibility of the scripts and Dockerfiles is **NO
 
 Jenkins container starts with the following contents:
 
-* Authentication: Internal database with two users: `admin` and `user`
-  * Passwords are same as user names
+* Authentication: Internal database with four users. Passwords are same as user names
+  * `admin` - Admin with full access
+  * `manager` - User with `Jenkins/Manage` permissions
+    ([JEP-223](https://github.com/jenkinsci/jep/tree/master/jep/223))
+  * `readonly` - User with `Jenkins/SystemRead` and read-only permissions
+    ([JEP-224](https://github.com/jenkinsci/jep/tree/master/jep/224)) -
+    [announcement](https://www.jenkins.io/blog/2020/05/25/read-only-jenkins-announcement/)
+  * `user` - User with ability to run jobs
 * Authorization: 
   * [Ownership-Based Security](https://github.com/jenkinsci/ownership-plugin/blob/master/doc/OwnershipBasedSecurity.md), 
   powered by [Role Strategy](https://plugins.jenkins.io/role-strategy) 
