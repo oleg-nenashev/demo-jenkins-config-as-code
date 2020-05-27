@@ -1,1 +1,11 @@
 Jenkins Config As Code Example.iml
+
+# Plugin installation manager dev tools
+jenkins-plugin-manager-*.jar
+tmp/
+
+# IDE
+.classpath
+.project
+.settings
+.factorypath

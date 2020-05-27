@@ -1,11 +1,15 @@
-FROM jenkins/jenkins:2.164.1
+ARG JENKINS_VERSION=2.238
+FROM jenkins/jenkins:$JENKINS_VERSION
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
 
+# Plugin Installation Manager
+ARG PLUGIN_MANAGER_TOOL_VERSION=1.0.2
+RUN wget https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/plugin-management-parent-pom-$PLUGIN_MANAGER_TOOL_VERSION/jenkins-plugin-manager-$PLUGIN_MANAGER_TOOL_VERSION.jar -O /usr/share/jenkins/ref/jenkins-plugin-manager.jar
+
 ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-COPY download-and-check-updates.sh /usr/local/bin/download-and-check-updates.sh
-RUN /usr/local/bin/download-and-check-updates.sh < /usr/share/jenkins/ref/plugins.txt
+RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 COPY init_scripts/src/main/groovy/ /usr/share/jenkins/ref/init.groovy.d/
 
