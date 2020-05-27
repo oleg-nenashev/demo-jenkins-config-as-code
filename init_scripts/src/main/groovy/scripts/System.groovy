@@ -1,7 +1,6 @@
 import hudson.security.csrf.DefaultCrumbIssuer
 import jenkins.model.Jenkins
 import jenkins.model.JenkinsLocationConfiguration
-import jenkins.CLI
 import jenkins.security.s2m.AdminWhitelistRule
 import org.kohsuke.stapler.StaplerProxy
 import hudson.tasks.Mailer
@@ -10,8 +9,7 @@ import hudson.plugins.locale.PluginImpl
 println("-- System configuration")
 
 // TODO: Configure Job Restrictions, Script Security, Authorize Project, etc., etc.
-println("--- Configuring Remoting (JNLP4 only, no Remoting CLI)")
-CLI.get().enabled = false
+println("--- Configuring Remoting (JNLP4 only)")
 Jenkins.instance.getExtensionList(StaplerProxy.class)
     .get(AdminWhitelistRule.class)
     .masterKillSwitch = false
