@@ -42,12 +42,26 @@ jenkins:
       roles:
         global:
           - name: "admin"
-            description: "Jenkins administrators"
+            description: "Jenkins administrators with full permissions"
             permissions:
               - "Overall/Administer"
             assignments:
               - "admin"
-          - name: "readonly"
+          - name: "manager"
+            description: "Jenkins managers with limited admin permissions"
+            permissions:
+              - "Overall/Manage"
+            assignments:
+              - "manager"
+          - name: "readonly-admin"
+            description: "Jenkins read-only administrators"
+            permissions:
+              - "Overall/SystemRead"
+              - "Job/Read"
+              - "Agent/Read"
+            assignments:
+              - "readonly"
+          - name: "readonly-user"
             description: "Read-only users"
             permissions:
               - "Overall/Read"

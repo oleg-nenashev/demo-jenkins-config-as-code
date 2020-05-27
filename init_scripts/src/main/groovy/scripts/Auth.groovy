@@ -9,11 +9,13 @@ boolean createAdmin = Boolean.getBoolean("io.jenkins.dev.security.createAdmin")
 
 println("=== Configuring users")
 def securityRealm = Jenkins.instance.getSecurityRealm()
-User user = securityRealm.createAccount("user", "user")
-user.setFullName("User")
+securityRealm.createAccount("user", "user").setFullName("User")
+securityRealm.createAccount("readonly", "readonly").setFullName("Read-only Admin")
+securityRealm.createAccount("manager", "manager").setFullName("Admin (Manage)")
+
 if (createAdmin) {
     User admin = securityRealm.createAccount("admin", "admin")
-    admin.setFullName("Admin")
+    admin.setFullName("Admin (Full Permissions)")
 }
 
 println("=== Configure Authorize Project")
