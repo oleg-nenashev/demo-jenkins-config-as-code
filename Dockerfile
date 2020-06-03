@@ -1,4 +1,4 @@
-ARG JENKINS_VERSION=2.238
+ARG JENKINS_VERSION=2.239
 FROM jenkins/jenkins:$JENKINS_VERSION
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="This demo shows how to setup Jenkins Config-as-Code with Docker, Pipeline, and Groovy Hook Scripts" Vendor="Oleg Nenashev" Version="0.2"
