@@ -109,3 +109,7 @@ Build image:
 ```shell
 docker build -t onenashev/demo-jenkins-config-as-code .
 ```
+
+### Release notes
+
+See [GitHub releases](https://github.com/oleg-nenashev/demo-jenkins-config-as-code/releases).
