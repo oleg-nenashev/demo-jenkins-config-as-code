@@ -57,14 +57,16 @@ Extra UI Features:
 
 ### Usage
 
-Run image:
+To start the demo instance, run the following command:
 
 ```shell
 docker run --rm --name ci-jenkins-io-dev -v maven-repo:/root/.m2 -e DEV_HOST=${CURRENT_HOST} -p 8080:8080 -p 50000:50000 onenashev/demo-jenkins-config-as-code
 ```
 
-Jenkins will need to connect to the Docker host to run agents.
-If you use Docker for Mac, use `-Dio.jenkins.dev.host` and additional `socat` image for forwarding.
+The `DEV_HOST` environment variable is used to connect agents without using Docker-in-Docker.
+If you use Docker for Mac or Docker for Windows,
+use additional `socat` image for port forwarding
+to ensure that you can connect to the Docker VM on these platforms.
 
 ```shell
 docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 2376:2375 bobrik/socat TCP4-LISTEN:2375,fork,reuseaddr UNIX-CONNECT:/var/run/docker.sock
