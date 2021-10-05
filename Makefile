@@ -1,5 +1,7 @@
 PLUGIN_MANAGER_TOOL_VERSION=1.1.0
 JENKINS_VERSION=2.240
+MY_PIPELINE_LIBRARY_DIR=$(CURDIR)/../pipeline-library
+CURRENT_HOST=192.168.0.66
 
 build:
 	docker build -t onenashev/demo-jenkins-config-as-code .
