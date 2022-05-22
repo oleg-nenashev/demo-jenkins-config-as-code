@@ -3,6 +3,8 @@ Demo image for Jenkins Configuration-as-Code
 
 [![Docker Build Status](https://img.shields.io/docker/build/onenashev/demo-jenkins-config-as-code.svg)](https://hub.docker.com/r/onenashev/demo-jenkins-config-as-code/)
 
+[![Follow @oleg-nenashev](https://img.shields.io/twitter/follow/oleg_nenashev.svg?style=social)](https://twitter.com/intent/follow?screen_name=oleg_nenashev) 
+
 This demo image shows how to establish full configuration-as-code in Jenkins with Docker, Pipeline, and 
 [Groovy Hook Scripts](https://wiki.jenkins.io/display/JENKINS/Groovy+Hook+Script).
 It offer a `GroovyBootstrap` logic which adds support of Groovy classes, debugging and correct error propagation from scripts.
