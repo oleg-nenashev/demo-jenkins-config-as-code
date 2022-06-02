@@ -59,7 +59,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>git</artifactId>
-      <version>3.3.2</version>
+      <version>4.11.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
